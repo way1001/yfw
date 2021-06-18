@@ -1,0 +1,7 @@
+{
+  "name": "integrating-marketing",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
