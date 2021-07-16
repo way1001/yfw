@@ -1,0 +1,12 @@
+{
+  "/weixin": {
+    "target": "https://tm.kehuoa.com",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/mkt": {
+    "target": "https://tm.kehuoa.com",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

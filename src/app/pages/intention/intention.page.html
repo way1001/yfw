@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">关闭</ion-button>
+    </ion-buttons>
+    <ion-title>
+      添加意向
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="forms-validations-content">
+  <form class="validations-form" [formGroup]="validationsForm" (ngSubmit)="onSubmit(validationsForm.value)">
+    <ion-list class="inputs-list" lines="full">
+      <!-- <ion-list-header>
+        <ion-label class="header-title"></ion-label>
+      </ion-list-header> -->
+
+      <!-- When this bug (https://github.com/ionic-team/ionic-framework/issues/22117) gets fixed, remove .item-label-floating class -->
+      <ion-item class="input-item item-label-floating">
+        <ion-label position="floating">意向标题</ion-label>
+        <ion-input type="text" formControlName="title" clearInput required></ion-input>
+      </ion-item>
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validations.title">
+          <div class="error-message" *ngIf="validationsForm.get('title').hasError(validation.type) && (validationsForm.get('title').dirty || validationsForm.get('title').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- When this bug (https://github.com/ionic-team/ionic-framework/issues/22117) gets fixed, remove .item-label-floating class -->
+      <ion-item class="input-item item-label-floating">
+        <ion-label position="floating">意向内容</ion-label>
+        <ion-input type="text" formControlName="details" clearInput></ion-input>
+      </ion-item>
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validations.details">
+          <div class="error-message" *ngIf="validationsForm.get('details').hasError(validation.type) && (validationsForm.get('details').dirty || validationsForm.get('details').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </ion-list>
+
+    <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!validationsForm.valid">确认添加</ion-button>
+  </form>
+</ion-content>

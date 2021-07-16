@@ -1,0 +1,134 @@
+<!-- <ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content class="transact-details-content">
+  
+  <!-- <ion-row class="user-details-wrapper">
+    <ion-col size="4">
+      <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+        <app-image-shell class="user-avatar" animation="spinner" [src]="'./assets/sample-images/notifications/100x100Notification2.jpg'" [alt]="'notification image'"></app-image-shell>
+      </app-aspect-ratio>
+    </ion-col>
+    <ion-col class="user-info-wrapper" size="8">
+      <h3 class="user-name">Claire Hale</h3>
+      <h5 class="user-handle">@clairehale</h5>
+    </ion-col>
+    <ion-col class="user-stats-wrapper" size="6">
+      <span class="user-stat-value">1553</span>
+      <span class="user-stat-name">Following</span>
+    </ion-col>
+    <ion-col class="user-stats-wrapper" size="6">
+      <span class="user-stat-value">537</span>
+      <span class="user-stat-name">Followers</span>
+    </ion-col>
+    <ion-col size="12">
+      <p class="user-bio">
+        I am a product and visual designer based in Uruguay. I have designed at Google, Amazon and Microsoft.
+      </p>
+    </ion-col>
+  </ion-row> -->
+  <ion-row class="user-preferences-wrapper">
+    <ion-col size="12">
+      <h4 class="preference-name">客户：</h4>
+      <p class="preference-value">
+        {{currentReferral?.customerName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">电话：</h4>
+      <p class="preference-value">
+        {{currentReferral?.phone}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">咨询楼盘：</h4>
+      <p class="preference-value">
+        {{currentReferral?.affiliationId}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">客户意向：</h4>
+      <p class="preference-value">
+        {{currentReferral?.description}}
+      </p>
+    </ion-col>
+  </ion-row>
+
+  <ion-item-divider>
+    <ion-label>{{currentReferral?.currentHandler == '楼盘判客'?'审核状态':'确认接收'}}</ion-label>
+  </ion-item-divider>
+  <form [formGroup]="radioTagsForm" *ngIf="currentReferral?.currentHandler === '楼盘判客'">
+    <ion-radio-group formControlName="selected_option">
+      <ion-row class="radio-tags">
+        <ion-item class="radio-tag" lines="none">
+          <ion-label class="tag-label">号码有效</ion-label>
+          <ion-radio value="0"></ion-radio>
+        </ion-item>
+        <ion-item class="radio-tag" lines="none">
+          <ion-label class="tag-label">
+            <span>有疑问</span>
+          </ion-label>
+          <ion-radio value="1" [disabled]="placeholder === '1'"></ion-radio>
+        </ion-item>
+        <!-- <ion-item class="radio-tag" lines="none">
+          <ion-label class="tag-label">
+            <span>&#36;&#36;</span>
+          </ion-label>
+          <ion-radio value="2" disabled="true"></ion-radio>
+        </ion-item> -->
+        <ion-item class="radio-tag" lines="none">
+          <ion-label class="tag-label">
+            <span>号码已存在</span>
+          </ion-label>
+          <ion-radio value="2"></ion-radio>
+        </ion-item>
+      </ion-row>
+    </ion-radio-group>
+
+
+  </form>
+  <form [formGroup]="checkTagsForm" *ngIf="currentReferral?.currentHandler === '业务员确认接收'">
+
+  <ion-radio-group formControlName="confirm_option">
+    <ion-row class="radio-tags">
+      <ion-item class="radio-tag" lines="none">
+        <ion-label class="tag-label">确认接收</ion-label>
+        <ion-radio value="0"></ion-radio>
+      </ion-item>
+      <ion-item class="radio-tag" lines="none">
+        <ion-label class="tag-label">
+          <span>拒绝退回</span>
+        </ion-label>
+        <ion-radio value="1"></ion-radio>
+      </ion-item>
+    </ion-row>
+  </ion-radio-group>
+</form>
+
+  <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!radioTagsForm.valid && !checkTagsForm.valid" (click)="onSubmit()">提交</ion-button>
+    <!-- <ion-label class="tip-label">
+      <span>选择有疑问提交后，系统会提示客户补充二位号码后重新发送审核</span>
+    </ion-label> -->
+
+    <ion-col size="12">
+      <p class="user-bio">
+        选择有疑问提交后，系统会提示客户补充二位号码后重新发送审核。
+      </p>
+    </ion-col>
+
+    <ion-col class="user-stats-wrapper" size="6" *ngIf="onHold > 1">
+      <span class="user-stat-value">您还有{{onHold}}条流程待办理</span>
+      <span class="user-stat-name">
+        <a style="text-decoration:underline;" href="tel: 173 6295 1060">点击查看详情</a>
+      </span>
+    </ion-col>
+
+
+
+</ion-content>
+<!-- <ion-alert></ion-alert> -->

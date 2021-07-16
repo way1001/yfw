@@ -1,0 +1,85 @@
+<!-- <ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content class="allocation-details-content">
+ 
+  <ion-row class="user-preferences-wrapper">
+    <ion-col size="12">
+      <h4 class="preference-name">客户：</h4>
+      <p class="preference-value">
+        {{currentReferral?.customerName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">电话：</h4>
+      <p class="preference-value">
+        {{currentReferral?.phone}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">咨询楼盘：</h4>
+      <p class="preference-value">
+        {{currentReferral?.affiliationId}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">客户意向：</h4>
+      <p class="preference-value">
+        {{currentReferral?.description}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">经纪人：</h4>
+      <p class="preference-value">
+        {{currentReferral?.brokerName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">经纪人电话：</h4>
+      <p class="preference-value">
+        {{currentReferral?.brokerPhone}}
+      </p>
+    </ion-col>
+  </ion-row>
+
+  <ion-item-divider>
+    <ion-label>咨询客户意向</ion-label>
+  </ion-item-divider>
+  <div class="validations-form">
+  <ion-item *ngFor="let item of consultingIntention;let i = index">
+    <ion-badge color="secondary">{{item.split('|')[0]}}</ion-badge>
+    <ion-label>{{item.split('|')[1]}}</ion-label>
+    <ion-button class="bookmark-button" expand="block" fill="clear" color="medium" (click)="del(i)">
+      <ion-icon slot="icon-only" name="trash" ></ion-icon>
+    </ion-button>
+  </ion-item>
+
+  <!-- <hr class="details-divider"> -->
+    <ion-button class="all-reviews-btn" color="dark" expand="block" fill="clear" (click)="presentModal()">添加客户意向 ({{ currentReferral?.consultingIntention?.length }})</ion-button>
+    <hr class="details-divider">
+</div>
+
+
+  <ion-item-divider>
+    <ion-label>选择业务员</ion-label>
+  </ion-item-divider>
+  <form [formGroup]="salesmanForm" class="validations-form">
+    <ion-item class="input-item item-label-floating">
+      <ion-label position="floating">业务员</ion-label>
+      <ion-select formControlName="salesman" cancelText="Cancel" okText="OK">
+        <ion-select-option *ngFor="let item of salesmans" [value]="item?.id" >{{ item?.realName }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!salesmanForm.valid" (click)="onSubmit()">提交</ion-button>
+
+  </form>
+
+
+
+</ion-content>

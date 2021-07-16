@@ -1,0 +1,16 @@
+ <ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" [routerLinkActive]="['tab-selected']" [routerLink]="['/app/home']">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label class="tab-title">首页</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="referrals" [routerLinkActive]="['tab-selected']" [routerLink]="['/app/referrals']">
+      <ion-icon name="people-outline"></ion-icon>
+      <ion-label class="tab-title">推荐客户</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="mine" [routerLinkActive]="['tab-selected']" [routerLink]="['/app/mine']">
+      <ion-icon name="person-circle-outline"></ion-icon>
+      <ion-label class="tab-title">我的</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

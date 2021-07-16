@@ -1,0 +1,257 @@
+@import "../../../../theme/mixins/inputs/select-alert";
+@import "../../../../theme/mixins/inputs/checkbox-tag";
+
+// Custom variables
+// Note:  These ones were added by us and have nothing to do with Ionic CSS Custom Properties
+:host {
+  --page-margin: var(--app-fair-margin);
+  --page-background: var(--app-background-shade);
+
+  --page-rating-5-color: #7ce198;
+  --page-rating-4-color: #a8e07c;
+  --page-rating-3-color: #cee07c;
+  --page-rating-2-color: #e0c77c;
+  --page-rating-1-color: #e07c7c;
+}
+
+// Use a colored border-top to fix weird transitions between toolbars that have different background colors
+ion-header {
+  ion-toolbar {
+    --background: transparent;
+  }
+}
+ion-content {
+  position: absolute;
+  top: 0;
+  border-top: calc(var(--app-header-height) + var(--ion-safe-area-top));
+  border-top-style: solid;
+  border-top-color: var(--ion-color-primary);
+}
+
+// Note:  All the CSS variables defined below are overrides of Ionic elements CSS Custom Properties
+.forms-validations-content {
+  --background: var(--page-background);
+
+  .validations-form {
+    margin-bottom: calc(var(--page-margin) * 2);
+
+    .inputs-list {
+      --ion-item-background: var(--page-background);
+
+      // padding: var(--page-margin) var(--page-margin) calc(var(--page-margin) * 2);
+
+      padding: var(--page-margin) var(--page-margin) 0;
+
+      ion-list-header {
+        padding-inline-start: 0px;
+
+        .header-title {
+          text-transform: uppercase;
+      		font-size: 16px;
+      		color: var(--ion-color-secondary);
+        }
+      }
+
+      .input-item {
+        --padding-start: 0px;
+        --padding-end: 0px;
+        --inner-padding-end: 0px;
+      }
+
+      .terms-item {
+        --border-width: 0px;
+        --inner-padding-end: 0px;
+      }
+
+      .error-container {
+        .error-message {
+          margin: calc(var(--page-margin) / 2) 0px;
+          display: flex;
+          align-items: center;
+          color: var(--ion-color-danger);
+          font-size: 14px;
+
+          ion-icon {
+            padding-inline-end: calc(var(--page-margin) / 2);
+            flex-shrink: 0;
+          }
+        }
+    	}
+
+      .counter-item {
+        app-counter-input {
+          --counter-background: transparent;
+          --counter-color: var(--ion-color-primary);
+          --counter-border-color: var(--ion-color-primary);
+        }
+
+        .counter-value {
+          text-align: center;
+        }
+      }
+    }
+
+    .submit-btn {
+      margin: var(--page-margin);
+    }
+
+    ion-item-divider {
+      --background: var(--page-background);
+      --padding-bottom: calc(var(--page-margin) / 2);
+      --padding-top: calc(var(--page-margin) * 2);
+      --padding-start: var(--page-margin);
+      --padding-end: var(--page-margin);
+  
+      border: none;
+    }
+
+    .checkbox-list {
+      .checkbox-item {
+        --padding-start: var(--page-margin);
+        --padding-end: var(--page-margin);
+        --inner-padding-end: 0px;
+  
+        .checkbox-label {
+          font-size: 14px;
+          font-weight: 500;
+          letter-spacing: 0.2px;
+          color: var(--ion-color-medium);
+        }
+  
+        ion-checkbox {
+          margin-inline-end: 0px;
+        }
+      }
+
+      .notification-item {
+        --padding-start: 0px;
+        --inner-padding-end: 0px;
+    
+        padding: var(--page-margin);
+        color: var(--ion-color-medium);
+        box-shadow: inset 0 8px 2px -9px var(--ion-color-darkest);
+    
+        .notification-item-wrapper {
+          --ion-grid-column-padding: 0px;
+    
+          width: 100%;
+          align-items: center;
+        }
+    
+        .details-wrapper {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          padding-left: var(--page-margin);
+    
+          .details-name {
+            margin-top: 0px;
+            margin-bottom: 5px;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+            color: var(--ion-color-secondary);
+          }
+    
+          .details-description {
+            font-size: 12px;
+            margin: 0px;
+          }
+        }
+    
+        .date-wrapper {
+          align-self: flex-start;
+    
+          .average-price {
+            margin: 0px;
+            font-size: 12px;
+            text-align: end;
+          }
+
+          .commission-rating {
+            width: 56px;
+            color: var(--ion-color-lightest);
+            border-radius: var(--app-narrow-radius);
+            padding: calc(var(--page-margin) / 8) calc(var(--page-margin) / 4);
+            font-size: 10px;
+            font-weight: 400;
+            display: block;
+            text-align: center;
+            // Default color
+            background-color: var(--page-rating-1-color);
+
+            // &[ratingBase="1"] {
+            //   background-color: var(--page-rating-1-color);
+            // }
+            // &[ratingBase="2"] {
+            //   background-color: var(--page-rating-2-color);
+            // }
+            // &[ratingBase="3"] {
+            //   background-color: var(--page-rating-3-color);
+            // }
+            // &[ratingBase="4"] {
+            //   background-color: var(--page-rating-4-color);
+            // }
+            // &[ratingBase="5"] {
+            //   background-color: var(--page-rating-5-color);
+            // }
+          }
+        }
+      }
+    }
+
+
+    .checkbox-tags {
+      padding: calc(var(--page-margin) / 2) calc(var(--page-margin) - var(--page-tags-gutter));
+  
+      @include checkbox-tag();
+  
+      .checkbox-tag {
+        padding: 0px var(--page-tags-gutter);
+        margin: var(--page-tags-gutter) 0px;
+      }
+  
+      // Add a deeper selector to override default colors
+      &.square-checkbox-tags {
+        background-color: var(--page-background);
+  
+        .checkbox-tag {
+          --checkbox-tag-color: var(--ion-color-medium);
+          --checkbox-tag-background: var(--ion-color-lightest);
+          --checkbox-tag-active-color: var(--ion-color-lightest);
+          --checkbox-tag-active-background: var(--ion-color-secondary);
+        }
+      }
+    }
+
+  }
+}
+
+// Alerts and in general all overlays are attached to the body or ion-app directly
+// We need to use ::ng-deep to access it from here
+::ng-deep .select-alert {
+  @include select-alert();
+
+  // Variables should be in a deeper selector or after the mixin include to override default values
+  --select-alert-color: var(--ion-color-lightest);
+  --select-alert-background: var(--ion-color-primary);
+  --select-alert-margin: 16px;
+
+  .alert-message {
+    display: none;
+  }
+}
+
+:host-context(.md) {
+  .checkbox-list,
+  .range-list {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+}
+
+:host-context(.ios) {
+  .checkbox-tags {
+    margin-bottom: calc(var(--page-margin) * 2);
+  }
+}

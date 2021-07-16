@@ -1,0 +1,65 @@
+<!-- <ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content class="allocation-details-content">
+ 
+  <ion-row class="user-preferences-wrapper">
+    <ion-col size="12">
+      <h4 class="preference-name">客户：</h4>
+      <p class="preference-value">
+        {{currentReferral?.customerName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">电话：</h4>
+      <p class="preference-value">
+        {{currentReferral?.phone}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">咨询楼盘：</h4>
+      <p class="preference-value">
+        {{currentReferral?.affiliationId}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">客户意向：</h4>
+      <p class="preference-value">
+        {{currentReferral?.description}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">经纪人：</h4>
+      <p class="preference-value">
+        {{currentReferral?.brokerName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">经纪人电话：</h4>
+      <p class="preference-value">
+        {{currentReferral?.brokerPhone}}
+      </p>
+    </ion-col>
+  </ion-row>
+
+  <ion-item-divider>
+    <ion-label>添加跟办信息</ion-label>
+  </ion-item-divider>
+
+  <ion-item class="input-item item-label-floating">
+    <ion-label position="floating">跟办置业顾问</ion-label>
+    <ion-input type="text" value="customer_name" clearInput required></ion-input>
+  </ion-item>
+  <ion-item class="input-item item-label-floating">
+    <ion-label position="floating">联系电话</ion-label>
+    <ion-input type="text" value="customer_name" clearInput required></ion-input>
+  </ion-item>
+
+  <ion-button class="submit-btn" type="submit" expand="block" fill="outline" (click)="onSubmit()">提交</ion-button>
+
+</ion-content>

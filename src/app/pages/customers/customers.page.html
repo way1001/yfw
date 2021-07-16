@@ -1,0 +1,99 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="app/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="user-friends-content">
+  <ion-segment value="activating" class="user-friends-segment" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="activating">
+      <ion-label>活跃</ion-label>
+    </ion-segment-button>
+    <!-- <ion-segment-button value="followers">
+      <ion-label>Followers</ion-label>
+    </ion-segment-button> -->
+    <ion-segment-button value="ending">
+      <ion-label>到期</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-searchbar class="friends-searchbar" animated [(ngModel)]="searchQuery" (ionChange)="searchList()"></ion-searchbar>
+
+  <ng-template #customerItem let-item="item">
+    <ion-row class="user-details-section">
+      <ion-col class="picture-wrapper" size="2">
+        <!-- <app-aspect-ratio [ratio]="{w:1, h:1}">
+          <app-image-shell class="user-image" animation="spinner" [src]="customer.image" [alt]="'friend'"></app-image-shell>
+        </app-aspect-ratio> -->
+        <!-- <ion-img class="user-image" animation="spinner" [src]="item?.image" [alt]="'customer'"></ion-img> -->
+        <a class="has-more-pictures" [routerLink]="['/app/referrals/', item?.id]">
+          <span class="pictures-count">{{ item?.customerName[0] }}</span>
+        </a>
+      </ion-col>
+      <ion-col class="user-data-wrapper">
+        <div class="user-info">
+          <h3 class="user-name">{{item?.customerName}}
+            <!-- <app-text-shell [data]="customer?.customerName"></app-text-shell> -->
+            <!-- {{customer.customerName}} -->
+          </h3>
+          <h5 class="user-job">
+            <!-- <app-text-shell [data]="customer?.phone"></app-text-shell> -->
+            {{item?.phone}}
+          </h5>
+        </div>
+      </ion-col>
+      <ion-col class="user-actions-wrapper">
+        <ion-button class="user-action" expand="block" size="small" color="primary" (click)="details(item?.id)">查看详情</ion-button>
+        <!-- <ion-button *ngIf="friend.following" class="user-action" expand="block" size="small" color="light">Following</ion-button> -->
+      </ion-col>
+    </ion-row>
+  </ng-template>
+
+  <section [hidden]="segmentValue !== 'activating'">
+    <ion-list class="friends-list" *ngIf="activeList?.length > 0">
+      <ion-item class="friend-item" *ngFor="let item of activeList">
+        <ng-container *ngTemplateOutlet="customerItem; context: { item: item }"></ng-container>
+      </ion-item>
+    </ion-list>
+    <ng-container *ngIf="activeList?.length <= 0">
+      <h3 class="empty-list-message">无记录</h3>
+    </ng-container>
+  </section>
+
+  <!-- <section [hidden]="segmentValue !== 'followers'">
+    <ion-list class="friends-list" *ngIf="customersList?.length > 0">
+      <ion-item class="friend-item" *ngFor="let item of customersList">
+        <ng-container *ngTemplateOutlet="customerItem; context: { item: item }"></ng-container>
+      </ion-item>
+    </ion-list>
+    <ng-container *ngIf="customersList?.length <= 0">
+      <h3 class="empty-list-message">无记录</h3>
+    </ng-container>
+  </section> -->
+
+  <section [hidden]="segmentValue !== 'ending'">
+    <ion-list class="friends-list" *ngIf="endList?.length > 0">
+      <ion-item class="friend-item" *ngFor="let item of endList">
+        <ng-container *ngTemplateOutlet="endList; context: { item: item }"></ng-container>
+      </ion-item>
+    </ion-list>
+    <ng-container *ngIf="endList?.length <= 0">
+      <h3 class="empty-list-message">无记录</h3>
+    </ng-container>
+  </section>
+
+  <!-- <PullToRefresh
+      [ngStyle]="dtPullToRefreshStyle"
+      [direction]="'down'"
+      [(ngModel)]="'down'"
+      [endReachedRefresh]="true"
+      (onRefresh)="pullToRefresh($event)"
+    >
+    </PullToRefresh>
+
+    <ng-template #loading>
+      <Icon type="loading"></Icon>
+    </ng-template> -->
+</ion-content>
