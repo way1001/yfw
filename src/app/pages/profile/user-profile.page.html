@@ -15,7 +15,7 @@
     </ion-col>
     <ion-col class="user-info-wrapper">
       <ion-row class="user-data-row">
-        <ion-col size="9">
+        <ion-col size="7">
           <h3 class="user-name">
             <app-text-shell [data]="profile?.realName"></app-text-shell>
           </h3>
@@ -23,9 +23,9 @@
             <app-text-shell [data]="profile?.phone"></app-text-shell>
           </h5>
         </ion-col>
-        <ion-col class="membership-col">
+        <ion-col class="membership-col" size="5">
           <span class="user-membership">
-            <app-text-shell [data]="profile?.userRole"></app-text-shell>
+            <app-text-shell [data]="userRole"></app-text-shell>
           </span>
         </ion-col>
       </ion-row>
@@ -104,4 +104,7 @@
       </ion-col>
     </ion-row>
   </div> -->
+  <div class="legal-stuff">
+   新邦网络@ <a class="legal-action" (click)="showPrivacyModal()">隐私政策</a>.
+  </div>
 </ion-content>

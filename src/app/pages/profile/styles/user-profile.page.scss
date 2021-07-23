@@ -283,6 +283,20 @@
     }
   }
 }
+
+.legal-stuff {
+  text-align: center;
+  font-size: 10px;
+  margin: calc(var(--page-margin) * 16) 0px;
+  color: var(--ion-color-medium);
+
+  .legal-action {
+    font-weight: 500;
+    color: var(--ion-color-medium);
+    cursor: pointer;
+    font-size: 9px;
+  }
+}
 // Alerts and in general all overlays are attached to the body or ion-app directly
 // We need to use ::ng-deep to access it from here
 ::ng-deep .language-alert {

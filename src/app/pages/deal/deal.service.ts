@@ -18,5 +18,9 @@ export class DealService {
     .pipe();
   }
   
+  updateReferralsDock(id, dockingName, dockingPhone): Observable<any> {
+    return this.http.put<any>(`/mkt/api/mp/referrals/ref`, {id, dockingName, dockingPhone})
+    .pipe();
+  }
 
 }

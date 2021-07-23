@@ -1,0 +1,58 @@
+<!-- <ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content class="transact-details-content">
+  
+  
+  <ion-row class="user-preferences-wrapper">
+    <ion-col size="12">
+      <h4 class="preference-name">客户：</h4>
+      <p class="preference-value">
+        {{currentReferral?.customerName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">电话：</h4>
+      <p class="preference-value">
+        {{currentReferral?.phone}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">咨询楼盘：</h4>
+      <p class="preference-value">
+        {{currentReferral?.basicInfo?.projectName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">客户意向：</h4>
+      <p class="preference-value">
+        {{currentReferral?.description}}
+      </p>
+    </ion-col>
+    <ion-button color="light" size="small" (click)="copy()">复制报备信息</ion-button>
+
+  </ion-row>
+
+  <ion-item-divider>
+    <ion-label>录入跟办人员</ion-label>
+  </ion-item-divider>
+
+  <ion-item class="input-item">
+    <ion-label position="floating">跟办置业顾问</ion-label>
+    <ion-input type="text" [value]="dockingName" clearInput (ionChange)="nameChange($event)"></ion-input>
+  </ion-item>
+
+  <ion-item class="input-item">
+    <ion-label position="floating">联系电话</ion-label>
+    <ion-input type="number" [value]="dockingPhone" clearInput (ionChange)="phoneChange($event)"></ion-input>
+  </ion-item>
+  
+  <ion-button class="submit-btn" type="submit" expand="block" fill="outline"  [disabled]="userRole !== 'access'" (click)="onSubmit()">提交</ion-button>
+    
+
+</ion-content>

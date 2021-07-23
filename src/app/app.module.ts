@@ -14,6 +14,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgZorroAntdMobileModule } from 'ng-zorro-antd-mobile';
+import { ClipboardModule } from 'ngx-clipboard';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -43,6 +44,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormsModule,
     BrowserAnimationsModule,
     NgZorroAntdMobileModule,
+    ClipboardModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

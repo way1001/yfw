@@ -79,7 +79,7 @@ export class CustomersPage implements OnInit {
       combination = {
         brokerId: currentUser?.mktUserId,
       }
-    } else if (this.userRole === 'access') {
+    } else if (this.userRole === 'access' || this.userRole === 'manager') {
       combination = {
         affiliationId: this.affiliated[0],
       }
@@ -97,8 +97,26 @@ export class CustomersPage implements OnInit {
       this.page,
       filterForm(this.parameter))).subscribe(
         res => {
-          let customersList = res.data.records
-          this.customersList = [...this.customersList, ...customersList];
+          let [...customersList] = res.data.records;
+          let tempArr = [], newArr = []
+          for (let i = 0; i < customersList.length; i++) {
+            if (tempArr.indexOf(customersList[i].phone) === -1) {
+              // newArr.push({
+              //   id: customersList[i].id,
+              //   list: [customersList[i].list]
+              // })
+              newArr.push(customersList[i]);
+              tempArr.push(customersList[i].phone);
+            } else {
+              // for (let j = 0; j < newArr.length; j++) {
+              //   if (newArr[j].phone == customersList[i].phone) {
+              //     newArr[j].list.push(customersList[i].list)
+              //   }
+              // }
+            }
+          }
+
+          this.customersList = [...this.customersList, ...newArr];
 
           this.searchList();
           if (customersList.length < this.page.size) {

@@ -19,6 +19,7 @@ import { ToastService } from '@app/core/_service/toast.service';
 export class SignupPage {
   signupForm: FormGroup;
   matching_passwords_group: FormGroup;
+  platformInfo;
 
   validation_messages = {
     /* 'email': [
@@ -71,6 +72,12 @@ export class SignupPage {
       ])),
       // 'matching_passwords': this.matching_passwords_group
     });
+
+    this.singupService.getPlatformInfo().subscribe(
+      res => {
+        this.platformInfo = res.data;
+      }
+    )
   }
 
   get f() { return this.signupForm.controls; }
@@ -90,7 +97,10 @@ export class SignupPage {
     const modal = await this.modalController.create({
       component: TermsOfServicePage,
       swipeToClose: true,
-      presentingElement: this.routerOutlet.nativeEl
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+        'registrationProtocol': this.platformInfo?.registrationProtocol,
+      }
     });
     return await modal.present();
   }
@@ -99,7 +109,10 @@ export class SignupPage {
     const modal = await this.modalController.create({
       component: PrivacyPolicyPage,
       swipeToClose: true,
-      presentingElement: this.routerOutlet.nativeEl
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+        'disclaimer': this.platformInfo?.disclaimer,
+      }
     });
     return await modal.present();
   }

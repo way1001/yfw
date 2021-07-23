@@ -3,8 +3,6 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, IonRouterOutlet, ModalController } from '@ionic/angular';
-import { IntentionPage } from '../intention/intention.page';
-import { TransactService } from '../transact/transact.service';
 import { DealService } from './deal.service';
 
 declare var WeixinJSBridge: any;

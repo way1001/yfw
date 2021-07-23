@@ -23,6 +23,11 @@ export class SingupService {
     .pipe();
   }
 
+  getPlatformInfo(): Observable<any> {
+    return this.http.get<any>(`/mkt//api/mp/basicinfo/platform`)
+    .pipe();
+  }
+
   // getInvtCode(merchantId): Observable<any> {
   //   return this.http.get<any>(`/yp/api/yp/wxuser/invtcode/${merchantId}`)
   //   .pipe();

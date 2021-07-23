@@ -27,6 +27,10 @@ export class HomePage implements OnInit {
 
   affList: [];
 
+  completed = true;
+  disappeared = false;
+  takeWayDis = true;
+
   validations = {
     'customer_name': [
       { type: 'required', message: '需输入客户姓名。' },
@@ -51,7 +55,7 @@ export class HomePage implements OnInit {
     private toastService: ToastService,
     public alertController: AlertController,
     public router: Router) {
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser')); 
 
     // this.platform.keyboardDidShow.subscribe(ev => {
     //   const { keyboardHeight } = ev;
@@ -72,9 +76,9 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.genders = [
-      '女士',
+      '其他',
       '先生',
-      '其他'
+      '女士'
     ];
     this.allNos = [
       '全号推荐',
@@ -88,7 +92,7 @@ export class HomePage implements OnInit {
 
     this.validationsForm = new FormGroup({
       'all_no': new FormControl('', Validators.required),
-      'take_way': new FormControl('', Validators.required),
+      'take_way': new FormControl({value: '', disabled: this.takeWayDis}, Validators.required),
       'customer_name': new FormControl('', Validators.compose([
         Validators.maxLength(10),
         Validators.minLength(2),
@@ -96,6 +100,8 @@ export class HomePage implements OnInit {
       ])),
       'gender': new FormControl(this.genders[0], Validators.required),
       'phone': new FormControl('', Validators.compose([
+        Validators.maxLength(11),
+        Validators.minLength(10),
         Validators.required,
         // Validators.pattern('^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\d{4}$')
       ])),
@@ -127,6 +133,11 @@ export class HomePage implements OnInit {
 
   onSubmit(values) {
 
+    if (localStorage.getItem('userRole') && localStorage.getItem('userRole') != '') {
+      this.toastService.presentToast('您的角色不允许推荐！');
+      return
+    }
+
     this.currentAffids = [];
 
     for (let i = 0; i < this.affList.length; i++) {
@@ -136,11 +147,12 @@ export class HomePage implements OnInit {
       }
     }
 
-    // console.log(tmp);
     if (this.currentAffids.length <= 0) {
       this.toastService.presentToast('至少选择一个楼盘！');
       return
     }
+
+    this.completed = false;
 
     this.recommendRequest().subscribe(
       res => {
@@ -192,6 +204,8 @@ export class HomePage implements OnInit {
         });
 
         this.presentAlertConfirm('推荐反馈', str);
+
+        this.completed = true;
       }
     );
 
@@ -209,6 +223,7 @@ export class HomePage implements OnInit {
         this.f.phone.setValue(prefix + '****' + suffix);
       }
     }
+    this.disappeared = false; 
     if (num.length >= 11) {
 
       this.homeService.verification(num, this.currentUser?.mktUserId).subscribe(
@@ -237,7 +252,9 @@ export class HomePage implements OnInit {
 
                   console.log(this.affList[index]);
                 }
-
+                if (tina.length === res.data.length) {
+                  this.disappeared = true; 
+                }
               }
 
             }
@@ -381,5 +398,28 @@ export class HomePage implements OnInit {
     await alert.present();
   }
 
+  async presentCommissionConfirm(message) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: '佣金标准',
+      message: message,
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: '确认',
+          handler: () => {
+            console.log('Confirm Okay');
+          }
+        },
+      ]
+    });
+
+    await alert.present();
+  }
+
+  noChange() {
+    this.f.take_way.setValue('');
+    this.f.phone.setValue('');
+  }
 
 }

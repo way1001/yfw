@@ -2,7 +2,8 @@ import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, IonRouterOutlet, ModalController } from '@ionic/angular';
+import { ListingPage } from '../listing/listing.page';
 import { TransactService } from '../transact.service';
 
 declare var WeixinJSBridge: any;
@@ -28,7 +29,9 @@ export class TransactDetailsPage implements OnInit {
   constructor(route: ActivatedRoute,
     public router: Router,
     private transactService: TransactService,
-    public alertController: AlertController) {
+    public alertController: AlertController,
+    private routerOutlet: IonRouterOutlet,
+    private modalController: ModalController) {
     this.instanceId = route.snapshot.params['instanceId'];
 
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -152,6 +155,19 @@ export class TransactDetailsPage implements OnInit {
 
       }
     )
+  }
+
+
+  async presentModal(ins) {
+    const modal = await this.modalController.create({
+      component: ListingPage,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+        'assignee': this.currentUser.mktUserId,
+      }
+    });
+    await modal.present();
   }
 
 }

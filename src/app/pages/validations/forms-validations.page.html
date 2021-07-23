@@ -108,6 +108,6 @@
 
     </ion-list>
 
-    <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!validationsForm.valid" (click)="onSubmit()">提交</ion-button>
+    <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!validationsForm.valid || (!ownInfo.headimgUrl && !f.headimg_url.value[0]?.link)" (click)="onSubmit()">提交</ion-button>
   </form>
 </ion-content>

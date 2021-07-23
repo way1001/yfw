@@ -4,10 +4,12 @@ import { Subscription } from 'rxjs';
 
 import { IResolvedRouteData, ResolverHelper } from '../../utils/resolver-helper';
 import { UserProfileModel } from './user-profile.model';
-import { AlertController } from '@ionic/angular';
+import { AlertController, IonRouterOutlet, ModalController } from '@ionic/angular';
 
 import { TranslateService } from '@ngx-translate/core';
 import { switchMap } from 'rxjs/operators';
+import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy.page';
+import { SingupService } from '../signup/singup.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -26,6 +28,8 @@ export class UserProfilePage implements OnInit {
   profile: UserProfileModel;
   available_languages = [];
   translations;
+  userRole;
+  platformInfo;
 
   @HostBinding('class.is-shell') get isShell() {
     return (this.profile && this.profile.isShell) ? true : false;
@@ -34,9 +38,17 @@ export class UserProfilePage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public router: Router,  
-    // public translate: TranslateService,
-    public alertController: AlertController
-  ) { }
+    public modalController: ModalController,
+    private routerOutlet: IonRouterOutlet,
+    public alertController: AlertController,
+    public singupService: SingupService
+  ) { 
+    this.singupService.getPlatformInfo().subscribe(
+      res => {
+        this.platformInfo = res.data;
+      }
+    )
+  }
 
 
   ngOnInit(): void {
@@ -49,6 +61,18 @@ export class UserProfilePage implements OnInit {
     )
     .subscribe((state) => {
       this.profile = state;
+   
+      if (!this.profile?.userRole || this.profile?.userRole === '') {
+        this.userRole = '经纪人';
+      } else if (this.profile?.userRole === 'access') {
+        this.userRole = '楼盘对接';
+      } else if (this.profile?.userRole === 'secretary') {
+        this.userRole = '客服';
+      }else if (this.profile?.userRole === 'salesman') {
+        this.userRole = '业务员';
+      }else if (this.profile?.userRole === 'manager') {
+        this.userRole = '经理';
+      }
 
       // get translations for this page to use in the Language Chooser Alert
       this.getTranslations();
@@ -109,4 +133,17 @@ export class UserProfilePage implements OnInit {
   //   await alert.present();
 
   // }
+
+  async showPrivacyModal() {
+    const modal = await this.modalController.create({
+      component: PrivacyPolicyPage,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+        'disclaimer': this.platformInfo?.disclaimer,
+      }
+    });
+    return await modal.present();
+  }
+
 }

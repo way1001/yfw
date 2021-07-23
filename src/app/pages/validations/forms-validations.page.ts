@@ -81,12 +81,11 @@ export class FormsValidationsPage implements OnInit {
   }
 
   async ngOnInit() {
-   
 
      this.genders = [
-      '女士',
+      '其它',
       '先生',
-      '其它'
+      '女士'
     ];
 
     this.validationsForm = new FormGroup({
@@ -105,6 +104,8 @@ export class FormsValidationsPage implements OnInit {
         this.ownInfo = res.data;
 
         this.s(this.ownInfo);
+
+        console.log(this.ownInfo);
       }
     })
     
@@ -117,7 +118,7 @@ export class FormsValidationsPage implements OnInit {
 
       this.f.real_name.setValue(mb.realName);
       this.f.nick_name.setValue(mb.nickName);
-      this.f.gender.setValue(mb.gender);
+      this.f.gender.setValue(this.genders[mb.sex]);
       this.f.about.setValue(mb.about);
       this.f.phone.setValue(mb.phone);
       this.f.province.setValue(mb.province);
@@ -134,7 +135,7 @@ export class FormsValidationsPage implements OnInit {
 
 
     this.formsValidationsService.updateInfo(this.ownInfo.id, this.f.real_name.value, this.f.nick_name.value,
-      this.f.gender.value, this.f.phone.value, this.f.province.value, this.f.city.value,
+      this.genders.indexOf(this.f.gender.value) || 0, this.f.phone.value, this.f.province.value, this.f.city.value,
       this.f.about.value, headimgUrl).subscribe(
         res => {
           if (res.ok) {

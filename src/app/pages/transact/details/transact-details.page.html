@@ -48,7 +48,7 @@
     <ion-col size="12">
       <h4 class="preference-name">咨询楼盘：</h4>
       <p class="preference-value">
-        {{currentReferral?.affiliationId}}
+        {{currentReferral?.basicInfo?.projectName}}
       </p>
     </ion-col>
     <ion-col size="12">
@@ -124,7 +124,7 @@
     <ion-col class="user-stats-wrapper" size="6" *ngIf="onHold > 1">
       <span class="user-stat-value">您还有{{onHold}}条流程待办理</span>
       <span class="user-stat-name">
-        <a style="text-decoration:underline;" href="tel: 173 6295 1060">点击查看详情</a>
+        <a style="text-decoration:underline;" (click)="presentModal()">点击查看详情</a>
       </span>
     </ion-col>
 

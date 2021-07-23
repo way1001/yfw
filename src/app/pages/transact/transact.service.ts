@@ -64,6 +64,14 @@ export class TransactService {
     .pipe();
   }
 
+  getTransactList(userId): Observable<any> {
+    return this.http.post<any>('/mkt/engine-rest/task', {"assignee": userId, "sorting":
+    [{"sortBy": "dueDate",
+    "sortOrder": "asc"
+    }]})
+    .pipe();
+  }
+
   getCurrentReferrals(slug): Observable<any> {
     return this.http.get<any>(`/mkt/api/mp/referrals/instance/${slug}`)
     .pipe();

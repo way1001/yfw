@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -10,6 +10,7 @@ import { ModalController } from '@ionic/angular';
 })
 
 export class TermsOfServicePage {
+  @Input() registrationProtocol;
 
   constructor(private modalController: ModalController) { }
 

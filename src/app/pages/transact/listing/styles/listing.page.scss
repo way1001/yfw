@@ -1,0 +1,110 @@
+// Custom variables
+// Note:  These ones were added by us and have nothing to do with Ionic CSS Custom Properties
+:host {
+  --page-margin: var(--app-broad-margin);
+  --page-background: var(--app-background-shade);
+
+  --page-color: #d9453a;
+}
+
+ion-content {
+  position: absolute;
+  top: 0;
+  border-top: calc(var(--app-header-height) + var(--ion-safe-area-top));
+  border-top-style: solid;
+  border-top-color: var(--ion-color-primary);
+}
+
+// Note:  All the CSS variables defined below are overrides of Ionic elements CSS Custom Properties
+.open-hours-wrapper {
+  padding: 0px var(--page-margin) var(--page-margin);
+
+  .schedules-list {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+
+    .open-hour-item {
+      font-size: 14px;
+      color: var(--ion-color-medium-tint);
+
+      & + .open-hour-item {
+        margin-top: calc(var(--page-margin) / 2);
+      }
+
+      .schedule-outer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 75%;
+
+        .schedule-day {
+          display: block;
+          padding-right: var(--page-margin);
+          width: 40%;
+          font-size: 14px;
+        }
+
+        .schedule-hours {
+          flex: 1;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+
+          .schedule-separator {
+            margin: 0px var(--page-margin);
+            line-height: 1;
+          }
+
+          .schedule-value {
+            font-weight: 500;
+
+            &:first-child {
+              text-align: start;
+            }
+            &:last-child {
+              text-align: end;
+            }
+          }
+
+          .schedule-closed {
+            text-transform: uppercase;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.availability-wrapper {
+  padding: calc(var(--page-margin) / 2) var(--page-margin) var(--page-margin);
+
+  .availability-row {
+    --ion-grid-column-padding: 0px;
+
+
+    border-bottom: 2px dashed rgba(var(--ion-color-dark-rgb), .1);
+    justify-content: space-between;
+    align-items: center;
+
+    .availability-description,
+    .availability-value {
+      font-size: 14px;
+      color: var(--ion-color-medium-tint);
+      display: block;
+      flex: 1;
+      display: flex;
+    }
+
+    .availability-description {
+      color: var(--ion-color-medium-tint);
+      justify-content: flex-start;
+    }
+
+    .availability-value {
+      color: var(--page-color);
+      justify-content: flex-end;
+    }
+  }
+}

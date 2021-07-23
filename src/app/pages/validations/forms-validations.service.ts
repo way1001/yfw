@@ -16,7 +16,7 @@ export class FormsValidationsService {
   updateInfo(id, realName, nickName, gender, phone, province, city,
     about, headimgUrl): Observable<any> {
     return this.http.put<any>(`/mkt/api/mp/userinfo`, {id, realName, 
-      nickName, gender, phone, province, city,
+      nickName, sex: gender, phone, province, city,
       about, headimgUrl})
     .pipe();
   }

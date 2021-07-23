@@ -10,14 +10,15 @@
   <ion-row class="user-details-wrapper">
     <ion-col size="4">
       <app-aspect-ratio [ratio]="{w: 1, h: 1}">
-        <app-image-shell class="user-avatar" animation="spinner" [src]="'./assets/sample-images/notifications/notification.jpeg'" [alt]="'notification image'"></app-image-shell>
+        <app-image-shell class="user-avatar" animation="spinner"
+          [src]="'./assets/sample-images/notifications/notification.jpg'" [alt]="'image'"></app-image-shell>
       </app-aspect-ratio>
     </ion-col>
     <ion-col class="user-info-wrapper" size="8">
-      <h3 class="user-name">Claire Hale</h3>
-      <h5 class="user-handle">@clairehale</h5>
+      <h3 class="user-name">{{referralsDetails?.customerName}}</h3>
+      <h5 class="user-handle">{{referralsDetails?.phone}}</h5>
     </ion-col>
-    <ion-col class="user-stats-wrapper" size="6">
+    <!-- <ion-col class="user-stats-wrapper" size="6">
       <span class="user-stat-value">1553</span>
       <span class="user-stat-name">Following</span>
     </ion-col>
@@ -29,9 +30,26 @@
       <p class="user-bio">
         I am a product and visual designer based in Uruguay. I have designed at Google, Amazon and Microsoft.
       </p>
+    </ion-col> -->
+    <!-- <ion-col size="12">
+      <h4 class="preference-name">电话</h4>
+      <p class="preference-value">
+        {{referralsDetails?.phone}}
+      </p>
+    </ion-col> -->
+    <!-- <ion-col size="12">
+      <h4 class="preference-name">Email</h4>
+      <p class="preference-value">
+        clairhale@ionic.com
+      </p>
+    </ion-col> -->
+    <ion-col size="12">
+      <p class="user-bio">
+        {{referralsDetails?.description}}
+      </p>
     </ion-col>
   </ion-row>
-  <ion-row class="user-preferences-wrapper">
+  <!-- <ion-row class="user-preferences-wrapper">
     <ion-col size="12">
       <h4 class="preference-name">Mobile</h4>
       <p class="preference-value">
@@ -52,5 +70,43 @@
         94114, USA
       </p>
     </ion-col>
-  </ion-row>
+  </ion-row> -->
+
+  <div class="related-deals-wrapper" *ngIf="referralsDetails?.transactionsDTOS && referralsDetails.transactionsDTOS.length > 0">
+    <!-- <h3 class="related-deals-title">More hot deals</h3> -->
+    <ion-row class="related-deal" *ngFor="let deal of referralsDetails.transactionsDTOS">
+      <ion-col class="deal-logo-wrapper" size="3">
+        <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+          <app-image-shell [src]="deal?.firstFigure" [alt]="'deals logo'" class="related-deal-logo" animation="spinner"></app-image-shell>
+        </app-aspect-ratio>
+      </ion-col>
+      <ion-col class="deal-info-wrapper" size="6">
+        <h4 class="related-deal-title">
+          <app-text-shell [data]="deal?.projectName"></app-text-shell>
+        </h4>
+        <p class="related-deal-description">
+          <app-text-shell [data]="deal?.currentHandler"></app-text-shell>
+        </p>
+      </ion-col>
+      <!-- <ion-col class="deal-info-wrapper" size="2">
+        <h4 class="related-deal-title">
+          <app-text-shell [data]="deal?.projectName"></app-text-shell>
+        </h4>
+        <p class="related-deal-description">
+          <app-text-shell [data]="deal?.currentHandler"></app-text-shell>
+        </p>
+      </ion-col> -->
+      <ion-col class="stats-col" size="2">
+        <span class="item-rating" [attr.ratingBase]="deal.grade ? deal.grade : 'S'" (click)="presentModal(deal?.instanceId)">
+          <app-text-shell [data]="'详情'"></app-text-shell>
+        </span>
+        <!-- <div class="item-price-range"> -->
+        <div class="item-price-range" *ngIf="deal?.substitute === '0' && (!this.userRole || this.userRole === '' || this.userRole === 'salesman')">
+          <span class="price" (click)="presentTrackModal()"> 跟办 </span>
+          <!-- <span class="price">{{deal?.substitute === '0' ? '帮带看': (deal?.substitute === '1' ? '自行带看': '陪同')}}</span> -->
+          <!-- <span class="no-price" *ngFor="let price of [].constructor(5 - (item.priceRange || 1))">$</span> -->
+        </div>
+      </ion-col>
+    </ion-row>
+  </div>
 </ion-content>

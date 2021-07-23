@@ -29,15 +29,15 @@
 
       <ion-item class="input-item item-label-floating">
         <ion-label position="floating">是否全号</ion-label>
-        <ion-select formControlName="all_no" cancelText="Cancel" okText="OK">
+        <ion-select formControlName="all_no" cancelText="Cancel" okText="OK" (ionChange)="noChange()">
           <ion-select-option *ngFor="let allNo of allNos" [value]="allNo">{{ allNo }}</ion-select-option>
         </ion-select>
       </ion-item>
 
       <ion-item class="input-item item-label-floating">
         <ion-label position="floating">带看方式</ion-label>
-        <ion-select formControlName="take_way" cancelText="Cancel" okText="OK">
-          <ion-select-option *ngFor="let takeWay of takeWays" [value]="takeWay">{{ takeWay }}</ion-select-option>
+        <ion-select formControlName="take_way" cancelText="Cancel" okText="OK" [disabled]="!f.all_no.value">
+          <ion-select-option *ngFor="let takeWay of takeWays" [value]="takeWay" [disabled]="f.all_no.value==='隐号推荐'&& takeWay==='需带看'">{{ takeWay }}</ion-select-option>
         </ion-select>
       </ion-item>
 
@@ -57,7 +57,7 @@
 
       <ion-item class="input-item item-label-floating">
         <ion-label position="floating">电话</ion-label>
-        <ion-input clearInput type="text" formControlName="phone" (ionInput)="inputEvent($event)" ></ion-input>
+        <ion-input clearInput type="text" maxlength="11" formControlName="phone" (ionInput)="inputEvent($event)" ></ion-input>
       </ion-item>
       <div class="error-container">
         <ng-container *ngFor="let validation of validations.phone">
@@ -72,23 +72,24 @@
     </ion-list>
 
     <ion-item-divider>
-      <ion-label>楼盘选择：</ion-label>
+      <ion-label>楼盘选择：<span class="no-tranck">{{disappeared?'(无可推荐楼盘，建议全号推荐)':''}}</span></ion-label>
     </ion-item-divider>
 
     <ion-list class="checkbox-list" lines="full" >
       <!-- <ion-list-header>
-        <ion-label class="header-title">楼盘选择：</ion-label>
+        <ion-label class="header-title" *ngIf="disappeared">无可推荐楼盘!</ion-label>
       </ion-list-header> -->
 
       <!-- <ion-item class="checkbox-item">
         <ion-label class="checkbox-label">Sophia Martin</ion-label>
         <ion-checkbox color="secondary" formControlName="person_1"></ion-checkbox>
       </ion-item> -->
-      <form [formGroup]="checkboxAffsForm">
+      <!-- <ion-row class="notification-item-wrapper" *ngIf="aff.delFlag!='1'"> -->
+      <form [formGroup]="checkboxAffsForm" class="checkbox-form">
         <ion-item class="notification-item" lines="none" *ngFor="let aff of affList;let i = index">
-          <ion-row class="notification-item-wrapper" *ngIf="aff.delFlag!='1'">
-            <ion-col size="1.3" class="date-wrapper">
-              <ion-checkbox color="secondary" [formControlName]="'aff_' + i"></ion-checkbox>
+            <ion-row class="notification-item-wrapper">
+            <ion-col size="1.3" class="date-wrapper" >
+              <ion-checkbox color="secondary" [formControlName]="'aff_' + i" [disabled]="aff.delFlag=='1'"></ion-checkbox>
             </ion-col>
             <ion-col size="2">
               <app-aspect-ratio [ratio]="{w: 1, h: 1}">
@@ -103,7 +104,7 @@
             </ion-col>
             <ion-col size="3.5" class="date-wrapper">
               <h3 class="average-price">均价：{{aff.price}}元/㎡</h3>
-              <p class="commission-rating">佣金标准</p>
+              <p class="commission-rating" (click)="presentCommissionConfirm(aff?.commission)">佣金标准</p>
             </ion-col>
           </ion-row>
         </ion-item>
@@ -154,7 +155,7 @@
       </ion-item> -->
     </ion-list>
 
-    <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!validationsForm.valid">提交
+    <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!validationsForm.valid && completed">提交
     </ion-button>
   </form>
 </ion-content>

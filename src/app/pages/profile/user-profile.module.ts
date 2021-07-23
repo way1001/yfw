@@ -10,6 +10,7 @@ import { UserProfilePage } from './user-profile.page';
 import { UserProfileResolver } from './user-profile.resolver';
 import { ComponentsModule } from '../../components/components.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy.page';
 
 
 const routes: Routes = [
@@ -31,9 +32,10 @@ const routes: Routes = [
     ComponentsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [UserProfilePage],
+  declarations: [UserProfilePage, PrivacyPolicyPage],
   providers: [
     UserProfileResolver,
-  ]
+  ],
+  entryComponents: [PrivacyPolicyPage],
 })
 export class UserProfilePageModule {}

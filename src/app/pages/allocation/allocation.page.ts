@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@app/core/_service/toast.service';
 import { AlertController, IonRouterOutlet, ModalController } from '@ionic/angular';
 import { IntentionPage } from '../intention/intention.page';
+import { ListingPage } from '../transact/listing/listing.page';
 import { TransactService } from '../transact/transact.service';
 import { AllocationService } from './allocation.service';
 
@@ -26,6 +27,8 @@ export class AllocationPage implements OnInit {
   currentTaskId;
   currentReferral;
   consultingIntention;
+
+  onHold: 0;
   
   constructor(route: ActivatedRoute,
     public router: Router, 
@@ -74,6 +77,17 @@ export class AllocationPage implements OnInit {
         }
       }
     );
+
+    this.transactService.getTaskCount(this.currentUser.mktUserId).subscribe(
+      resp => {
+        //
+        if (resp?.count > 0) {
+          //
+          this.onHold = resp?.count;
+        }
+
+      }
+    )
   }
 
   async presentModal() {
@@ -177,6 +191,18 @@ export class AllocationPage implements OnInit {
 
       }
     )
+  }
+
+  async presentTransactModal(ins) {
+    const modal = await this.modalController.create({
+      component: ListingPage,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+        'assignee': this.currentUser.mktUserId,
+      }
+    });
+    await modal.present();
   }
   
  }

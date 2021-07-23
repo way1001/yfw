@@ -45,6 +45,10 @@ const routes: Routes = [
       {
         path: 'deal/:referralId',
         loadChildren: () => import('./pages/deal/deal.module').then(m => m.DealModule)
+      },
+      {
+        path: 'docking/:referralId',
+        loadChildren: () => import('./pages/docking/docking.module').then(m => m.DockingModule)
       }
     ]
   },

@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">关闭</ion-button>
+    </ion-buttons>
+    <ion-title>
+      办理列表
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="forms-validations-content">
+
+  <!-- <div class="open-hours-wrapper">
+    <h3 class="detail-title"></h3>
+    <ul class="schedules-list" *ngIf="transactList && transactList?.length > 0">
+      <li class="open-hour-item" *ngFor="let tr of transactList">
+        <div class="schedule-outer">
+          <span class="schedule-day">
+            <app-text-shell [data]="tr.name"></app-text-shell>
+          </span>
+          <div class="schedule-hours">
+              <span class="schedule-value">{{tr.created | appTimeMMDay}}
+              </span>
+              <ion-badge class="schedule-closed" color="medium">closed</ion-badge>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div> -->
+
+  <div class="availability-wrapper" *ngIf="transactList && transactList?.length > 0">
+    <h3 class="detail-title"></h3>
+    <ion-row class="availability-row" *ngFor="let tr of transactList">
+      <span class="availability-description">
+        <app-text-shell [data]="tr.created | appTimeMMDay"></app-text-shell>
+      </span>
+      <span class="availability-value">
+        <app-text-shell [data]="tr.name"></app-text-shell>
+      </span>
+      <ion-button size="small" class="book-now-btn" color="dark" fill="outline" (click)="toTransact(tr)">立即办理</ion-button>
+    </ion-row>
+  </div>
+  
+</ion-content>
