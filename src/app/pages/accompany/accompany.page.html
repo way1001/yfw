@@ -1,0 +1,75 @@
+<!-- <ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content class="transact-details-content">
+  
+  
+  <ion-row class="user-preferences-wrapper">
+    <ion-col size="12">
+      <h4 class="preference-name">客户：</h4>
+      <p class="preference-value">
+        {{currentReferral?.customerName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">电话：</h4>
+      <p class="preference-value">
+        {{currentReferral?.phone}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">咨询楼盘：</h4>
+      <p class="preference-value">
+        {{currentReferral?.basicInfo?.projectName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">客户意向：</h4>
+      <p class="preference-value">
+        {{currentReferral?.description}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">经纪人：</h4>
+      <p class="preference-value">
+        {{currentReferral?.brokerName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">经纪人电话：</h4>
+      <p class="preference-value">
+        <a style="text-decoration:underline;" (href)="'tel: ' + currentReferral?.brokerPhone">{{currentReferral?.brokerPhone}}</a>
+      </p> 
+    </ion-col>
+  </ion-row>
+
+  <ion-item-divider>
+    <ion-label>陪同客户事宜安排</ion-label>
+  </ion-item-divider>
+
+  <ion-item class="input-item">
+    <ion-label position="floating">客户描述</ion-label>
+    <ion-input type="text" [value]="description" clearInput (ionChange)="descriptionChange($event)"></ion-input>
+  </ion-item>
+
+  <ion-item class="input-item item-label-floating">
+    <ion-label position="floating">陪同人员</ion-label>
+    <ion-select [value]="salesmanId" cancelText="取消" okText="确认" (ionChange)="salesmanIdChange($event)">
+      <ion-select-option *ngFor="let item of salesmans" [value]="item?.id" >{{ item?.realName }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- <ion-item class="input-item">
+    <ion-label position="floating">陪同人员</ion-label>
+    <ion-input type="number" [value]="salesmanId" clearInput (ionChange)="phoneChange($event)"></ion-input>
+  </ion-item> -->
+  
+  <ion-button class="submit-btn" type="submit" expand="block" fill="outline"  [disabled]="userRole !== 'secretary'" (click)="onSubmit()">提交</ion-button>
+    
+
+</ion-content>

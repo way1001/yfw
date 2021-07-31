@@ -23,4 +23,9 @@ export class DealService {
     .pipe();
   }
 
+  updateReferralsDis(id, description, salesmanId): Observable<any> {
+    return this.http.put<any>(`/mkt/api/mp/referrals/ref`, {id, description, salesmanId})
+    .pipe();
+  }
+
 }

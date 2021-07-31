@@ -26,6 +26,10 @@ const routes: Routes = [
         path: 'forms-and-validations',
         loadChildren: () => import('./pages/validations/forms-validations.module').then(m => m.FormsValidationsPageModule)
       },
+      {
+        path: 'chambermaid',
+        loadChildren: () => import('./pages/chambermaid/chambermaid.module').then(m => m.ChambermaidPageModule)
+      },
       // {
       //   path: 'transact',
       //   loadChildren: () => import('./page/listing/real-estate-listing.module').then(m => m.RealEstateListingPageModule)
@@ -49,6 +53,10 @@ const routes: Routes = [
       {
         path: 'docking/:referralId',
         loadChildren: () => import('./pages/docking/docking.module').then(m => m.DockingModule)
+      },
+      {
+        path: 'accompany/:referralId',
+        loadChildren: () => import('./pages/accompany/accompany.module').then(m => m.AccompanyModule)
       }
     ]
   },

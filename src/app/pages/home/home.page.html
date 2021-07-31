@@ -28,15 +28,15 @@
       </ion-list-header> -->
 
       <ion-item class="input-item item-label-floating">
-        <ion-label position="floating">是否全号</ion-label>
-        <ion-select formControlName="all_no" cancelText="Cancel" okText="OK" (ionChange)="noChange()">
+        <ion-label position="floating">推荐方式</ion-label>
+        <ion-select formControlName="all_no" cancelText="取消" okText="确认" (ionChange)="noChange()">
           <ion-select-option *ngFor="let allNo of allNos" [value]="allNo">{{ allNo }}</ion-select-option>
         </ion-select>
       </ion-item>
 
       <ion-item class="input-item item-label-floating">
         <ion-label position="floating">带看方式</ion-label>
-        <ion-select formControlName="take_way" cancelText="Cancel" okText="OK" [disabled]="!f.all_no.value">
+        <ion-select formControlName="take_way" cancelText="取消" okText="确认" [disabled]="!f.all_no.value">
           <ion-select-option *ngFor="let takeWay of takeWays" [value]="takeWay" [disabled]="f.all_no.value==='隐号推荐'&& takeWay==='需带看'">{{ takeWay }}</ion-select-option>
         </ion-select>
       </ion-item>

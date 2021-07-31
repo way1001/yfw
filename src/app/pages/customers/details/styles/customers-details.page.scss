@@ -146,6 +146,12 @@ ion-content {
           margin: 0px;
           color: var(--ion-color-medium-tint);
           font-size: 16px;
+
+          .status {
+            margin: 2px;
+            color: var(--page-rating-4-color);
+            font-size: 12px;
+          }
         }
       }
     }

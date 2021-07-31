@@ -23,9 +23,9 @@
       <div slot="end">
         <ImagePicker
           [files]="f.take_bill.value"
-          [multiple]="multiple"
-          [length]="1"
-          [selectable]="f.take_bill.value.length < 1"
+          [multiple]="multiple === 0"
+          [length]="3"
+          [selectable]="f.take_bill.value.length < 3"
           [accept]="'image/gif,image/jpeg,image/jpg,image/png'"
           (onChange)="fileChange($event)"
           (onImageClick)="imageClick($event)"
@@ -46,6 +46,13 @@
           </div>
         </ng-container>
       </div>
+
+      <ion-item class="input-item item-label-floating">
+        <ion-label position="floating">办理方式</ion-label>
+        <ion-select formControlName="handle_type" cancelText="取消" okText="确认">
+          <ion-select-option *ngFor="let ht of handleTypes" [value]="ht">{{ ht }}</ion-select-option>
+        </ion-select>
+      </ion-item>
     </ion-list>
 
     <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!validationsForm.valid || !f.take_bill.value[0]?.link">确认添加</ion-button>

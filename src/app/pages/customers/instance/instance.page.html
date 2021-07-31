@@ -32,7 +32,7 @@
   </div>
 
   <ion-item-group>
-    <ion-item-divider sticky>
+    <ion-item-divider>
       <ion-label>办理详情</ion-label>
     </ion-item-divider>
   <ion-item class="notification-item" lines="none" *ngFor="let task of taskList">
@@ -47,38 +47,55 @@
         <p class="details-description">办理人：{{ task.assignee }}</p>
       </ion-col>
       <ion-col size="4" class="date-wrapper">
-        <h3 class="notification-date">{{ task?.endTime?(task?.endTime | appTimeMMDay): ''}}</h3>
+        <h3 class="notification-date">{{ task?.endTime ? (task?.endTime | appTimeMMDay): ''}}</h3>
         <p class="notification-description">{{task.deleteReason === 'completed' ? '已办理' : '处理中...'}}</p>
       </ion-col>
     </ion-row>
   </ion-item>
   <ng-container >
     <ion-item-group>
-      <ion-item-divider sticky>
+      <ion-item-divider>
         <ion-label>跟办记录</ion-label>
       </ion-item-divider>
       <div class="related-activities-wrapper" *ngIf="trackRecord && trackRecord.length > 0">
         <!-- <h3 class="detail-alt-title">More activities?</h3> -->
         <ion-row class="related-activity" *ngFor="let track of trackRecord">
+          <ion-col class="picture-wrapper" *ngFor="let url of track?.urls.slice(0, 3); let i = index">
+            <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+              <app-image-shell class="picture-image" [src]="url" [alt]="'img'" ionImgViewer></app-image-shell>
+            </app-aspect-ratio>
+          </ion-col>
           <ion-col size="12">
-            <app-image-shell [display]="'cover'" animation="spinner" class="related-activity-picture" [src]="track?.url">
+            <!-- <app-image-shell [display]="'cover'" animation="spinner" class="related-activity-picture" [src]="track?.url" ionImgViewer>
               <app-aspect-ratio [ratio]="{w:64, h:23}">
               </app-aspect-ratio>
-            </app-image-shell>
+            </app-image-shell> -->
+            <!-- <ion-img-viewer 
+  title="Demo" 
+  text="Component" 
+  scheme="dark" 
+  [src]="track?.url">
+</ion-img-viewer> -->
           </ion-col>
           <ion-col size="12" class="activity-details">
             <h5 class="activity-name">
-              <app-text-shell [data]="track?.content"></app-text-shell>
+              <!-- <ion-label class="type"><app-text-shell [data]="track?.handleType"></app-text-shell></ion-label> -->
+              <!-- <app-text-shell [data]="track?.content"></app-text-shell> -->
+              <span style="color: rgb(81, 24, 240);">「{{track?.handleType === '0' ? '普通跟办': (track?.handleType === '1'? '带看/来访': '成交确认')}}」</span>
+              {{track?.content}}
             </h5>
-            <!-- <span class="activity-category">
-              <app-text-shell [data]="track?.content"></app-text-shell>
-            </span> -->
+            <span class="activity-category">
+              <app-text-shell [data]="track?.createId"></app-text-shell>
+            </span>
+            <ion-button class="activity-rating" expand="block" fill="clear" color="medium" (click)="del(track?.id)" *ngIf="track?.createId===userId">
+              <ion-icon slot="icon-only" name="trash" ></ion-icon>
+            </ion-button>
             <!-- <div class="activity-rating">
               <ion-icon class="rating-icon" name="star-outline"></ion-icon>
-              <div class="rating-value">
-                <app-text-shell [data]="relatedActivity.rating"></app-text-shell>
-              </div>
-            </div> -->
+              <div class="rating-value"> -->
+                <!-- <app-text-shell [data]="relatedActivity.rating"></app-text-shell> -->
+              <!-- </div> -->
+            <!-- </div> -->
           </ion-col>
         </ion-row>
       </div>

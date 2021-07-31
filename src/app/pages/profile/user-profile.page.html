@@ -64,22 +64,17 @@
   </ion-row>
   <div class="user-about-section">
     <h3 class="details-section-title">{{ '介绍' | translate }}</h3>
-    <p class="user-description">
-      <app-text-shell animation="bouncing" lines="4" [data]="profile?.about"></app-text-shell>
+    <p class="user-description">{{profile?.about ? profile?.about: '暂无介绍'}}
+      <!-- <app-text-shell animation="bouncing" lines="4" [data]="profile?.about">{{!profile?.about}}</app-text-shell> -->
     </p>
   </div>
-  <div class="user-friends-section">
+  <!-- <div class="user-friends-section">
     <ion-row class="heading-row">
       <h3 class="details-section-title">{{ '客户' | translate }}</h3>
-      <a class="heading-call-to-action" [routerLink]="['/app/referrals']">{{ '更多' | translate }}</a>
-    </ion-row>
-    <ion-row class="friends-row">
+    </ion-row> -->
+    <!-- <ion-row class="friends-row">
       <ion-col class="friend-item" *ngFor="let customer of profile?.customers">
-        <!-- <app-aspect-ratio [ratio]="{w: 1, h: 1}" >
-          <div class="color-radio-inner-wrapper">
-            <ion-label class="color-label">Red</ion-label>
-          </div>
-        </app-aspect-ratio> -->
+
         <a class="has-more-pictures" [routerLink]="['/app/referrals/', customer?.id]">
           <span class="pictures-count">{{ customer?.customerName}}</span>
         </a>
@@ -87,8 +82,13 @@
           <app-text-shell [data]="customer.phone"></app-text-shell>
         </span>
       </ion-col>
-    </ion-row>
-  </div>
+    </ion-row> -->
+            <!-- <app-aspect-ratio [ratio]="{w: 1, h: 1}" >
+          <div class="color-radio-inner-wrapper">
+            <ion-label class="color-label">Red</ion-label>
+          </div>
+        </app-aspect-ratio> -->
+  <!-- </div> -->
 
   <!-- <div class="user-photos-section">
     <ion-row class="heading-row">

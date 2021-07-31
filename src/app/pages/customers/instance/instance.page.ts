@@ -13,6 +13,7 @@ import { CustomersService } from '../customers.service';
 
 export class InstancePage implements OnInit{
   @Input() instanceId: string;
+  @Input() userId;
 
   steps = [];
   current = 0;
@@ -24,7 +25,8 @@ export class InstancePage implements OnInit{
 
   constructor(private modalController: ModalController,
     private customersService: CustomersService,
-    private transactService: TransactService) { }
+    private transactService: TransactService) { 
+    }
 
   ngOnInit(): void {
     this.steps = [
@@ -84,5 +86,15 @@ export class InstancePage implements OnInit{
 
   dismiss(): void {
     this.modalController.dismiss();
+  }
+
+  del(id) {
+    this.customersService.delTrackRecord(id).subscribe(
+      res=>{
+        console.log('del ok')
+        this.dismiss();
+      }
+    )
+
   }
 }

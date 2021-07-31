@@ -47,6 +47,7 @@ export class CustomersDetailsPage {
       presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
         'instanceId': ins,
+        'userId': this.currentUser?.mktUserId
       }
     });
     // return await modal.present();
@@ -57,13 +58,13 @@ export class CustomersDetailsPage {
     // }
   }
 
-  async presentTrackModal() {
+  async presentTrackModal(referralId) {
     const modal = await this.modalController.create({
       component: TrackRecordPage,
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
-        'referralsId': this.referralId,
+        'referralsId': referralId,
         'userId': this.currentUser?.mktUserId
       }
     });

@@ -3,7 +3,7 @@ import { OnInit } from '@angular/core';
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UploadService } from '@app/core/_service/uploader.service';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -19,11 +19,18 @@ import { CustomersService } from '../customers.service';
 })
 
 export class TrackRecordPage implements OnInit{
+  private loadingElement: any;
+  private singleLoading = false;
+
   validationsForm: FormGroup;
 
   intention: [];
   @Input() referralsId;
   @Input() userId;
+
+  multiple = 1;
+
+  handleTypes: Array<string>;
 
   validations = {
     'take_bill': [
@@ -31,20 +38,47 @@ export class TrackRecordPage implements OnInit{
     ],
     'details': [
       { type: 'required', message: '内容不能为空' }
-    ]
+    ],
+    'handle_type': [
+      { type: 'required', message: '需选择一项.' }
+    ],
   };
 
   constructor(private modalController: ModalController,
     private uploadService: UploadService,
+    private loadingController: LoadingController,
     private customersService: CustomersService) { }
 
   ngOnInit(): void {
+    this.handleTypes = [
+      '跟办',
+      '来访/带看（需审核）',
+      '成交确认（需审核）'
+    ];
+
     this.validationsForm = new FormGroup({
       
       'take_bill': new FormControl([]),
-      'details': new FormControl('', Validators.required)
+      'details': new FormControl('', Validators.required),
+      'handle_type': new FormControl('', Validators.required),
     });
     
+  }
+
+  async presentLoader() {
+    this.loadingElement = await this.loadingController.create({
+      message: '加载中 ...'
+    });
+
+    await this.loadingElement.present();
+    const { role, data } = await this.loadingElement.onDidDismiss();
+    this.singleLoading = false; 
+  }
+
+  async dismissLoader() {
+    if (this.loadingElement) {
+      await this.loadingElement.dismiss();
+    }
   }
 
   get f() { return this.validationsForm.controls; }
@@ -67,8 +101,14 @@ export class TrackRecordPage implements OnInit{
       return;
     }
 
+    // this.f.take_bill
+    let picUrls = [];
+    this.f.take_bill.value.forEach(element => {
+      element.link ? picUrls.push(element.link) : ''
+    });
+
     this.customersService.addTrackRecord(this.userId, this.referralsId, 
-      this.f.take_bill.value[0].link, this.f.details.value).subscribe(
+      picUrls, this.f.details.value, this.handleTypes.indexOf(this.f.handle_type.value) || 0).subscribe(
       res => {
         if (res.ok) {
           this.modalController.dismiss();
@@ -82,59 +122,53 @@ export class TrackRecordPage implements OnInit{
 
   ImageChange(params) {
     const { files, type, index } = params;
+    // this.files = files;
   }
 
   async fileChange(params) {
     const { files, operationType, index } = params;
 
+    const pu = (fd) => {
+      const uplodfile = { data: fd, inProgress: false, progress: 0, index: index };
+      this.uploadFile(uplodfile);
+    };
+
+    if (!files[index]) return;
+
     switch (operationType) {
       case 'add':
-        if (files) {
-          // collect promises from the compression function
-          const compressPromises: Promise<File>[] = [];
-          for (const file of files) {
-            compressPromises.push(this.compressImage(this.dataURItoBlob(file.url)));
-          }
+        new Compressor(this.dataURItoBlob(files[index].url), {
+          quality: 0.6,
+          convertSize: 500000,
+          success(result) {
+            const formData = new FormData();
 
-          // wait until these properties are resolved and loop through the result
-          Promise.all(compressPromises).then((compressedFiles) => {
-            for (const file of compressedFiles) {
-              const formData = new FormData();
+            formData.append('file', result);
+            formData.append('dir', 'comment');
+            formData.append('fileType', 'image');
 
-              formData.append('file', file);
-              formData.append('dir', '');
-              formData.append('fileType', 'image');
+            pu(formData);
 
-              this.uploadFile({ data: formData, inProgress: false, progress: 0});
-              // do whatever you need to do with these files - upload to server or whatever
-            }
-          }).catch((error) => console.log('ooops :(', error));
-        }
+          },
+          error(err) {
+            console.log(err.message);
+          },
+        });
+
         break;
       case 'remove':
-
-        //TODO not delete 7niu
         break;
       default:
         break;
     }
   }
 
-  compressImage(file): Promise<File> {
-    return new Promise<File>((resolve, reject) => {
-      new Compressor(file, {
-        quality: 0.6,
-        convertSize: 500000,
-        success: (result) => {
-          resolve(new File([result], file.name ? file.name : '', { type: result.type }))
-        },
-        error: (error: Error) => reject(error)
-      })
-    });
-  }
-
   uploadFile(file) {
     file.inProgress = true;
+    if (this.singleLoading === false) {
+      this.presentLoader();
+      this.singleLoading = true;
+    }
     this.uploadService.upload(file.data).pipe(
       map(event => {
         switch (event.type) {
@@ -142,12 +176,14 @@ export class TrackRecordPage implements OnInit{
             file.progress = Math.round(event.loaded * 100 / event.total);
             break;
           case HttpEventType.Response:
-              this.f.take_bill.value[0].link = event.body.link
+            this.f.take_bill.value[file.index].link = event.body.link;
+            this.dismissLoader();
             return event;
         }
       }),
       catchError((error: HttpErrorResponse) => {
         file.inProgress = false;
+        this.dismissLoader();
         return of(`${file.data.name} upload failed.`);
       })).subscribe((event: any) => {
         if (typeof (event) === 'object') {
@@ -155,6 +191,7 @@ export class TrackRecordPage implements OnInit{
         }
       });
   }
+
 
   dataURItoBlob(dataURI) {
     // convert base64/URLEncoded data component to raw binary data held in a string

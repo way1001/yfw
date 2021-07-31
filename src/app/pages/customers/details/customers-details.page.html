@@ -1,7 +1,8 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button color="light"></ion-menu-button>
+      <!-- <ion-menu-button color="light"></ion-menu-button> -->
+      <ion-back-button defaultHref="app/referrals" text=""></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -48,6 +49,14 @@
         {{referralsDetails?.description}}
       </p>
     </ion-col>
+    <ion-col size="12">
+      <p class="user-bio">
+        客户首次推荐日期: {{referralsDetails?.createTime}}
+      </p>
+      <p class="user-bio">
+        最新跟办日期: {{referralsDetails?.updateTime}}
+      </p>
+    </ion-col>
   </ion-row>
   <!-- <ion-row class="user-preferences-wrapper">
     <ion-col size="12">
@@ -85,7 +94,9 @@
           <app-text-shell [data]="deal?.projectName"></app-text-shell>
         </h4>
         <p class="related-deal-description">
-          <app-text-shell [data]="deal?.currentHandler"></app-text-shell>
+          {{deal?.currentHandler}} 
+          <span class="status" *ngIf="deal?.currentStatus">「{{deal?.currentStatus==='0'?'跟办中':(deal?.currentStatus==='1'?'已来访':'已成交')}}」</span>
+          <!-- <app-text-shell [data]="deal?.currentHandler"></app-text-shell> -->
         </p>
       </ion-col>
       <!-- <ion-col class="deal-info-wrapper" size="2">
@@ -97,14 +108,17 @@
         </p>
       </ion-col> -->
       <ion-col class="stats-col" size="2">
-        <span class="item-rating" [attr.ratingBase]="deal.grade ? deal.grade : 'S'" (click)="presentModal(deal?.instanceId)">
+        <span class="item-rating" [attr.ratingBase]="deal.grade ? deal.grade : 'S'" (click)="presentModal(deal?.instanceId)" >
           <app-text-shell [data]="'详情'"></app-text-shell>
         </span>
         <!-- <div class="item-price-range"> -->
-        <div class="item-price-range" *ngIf="deal?.substitute === '0' && (!this.userRole || this.userRole === '' || this.userRole === 'salesman')">
-          <span class="price" (click)="presentTrackModal()"> 跟办 </span>
+        <!-- <div class="item-price-range" *ngIf="deal?.substitute === '0' && (!this.userRole || this.userRole === '' || this.userRole === 'salesman')">
+          <span class="price" (click)="presentTrackModal()"> 跟办 </span> -->
           <!-- <span class="price">{{deal?.substitute === '0' ? '帮带看': (deal?.substitute === '1' ? '自行带看': '陪同')}}</span> -->
           <!-- <span class="no-price" *ngFor="let price of [].constructor(5 - (item.priceRange || 1))">$</span> -->
+        <!-- </div> -->
+        <div class="item-price-range" *ngIf="deal?.name !== '楼盘判客'">
+          <span class="price" (click)="presentTrackModal(deal?.id)"> 跟办 </span>
         </div>
       </ion-col>
     </ion-row>

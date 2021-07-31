@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-
+import { map } from 'rxjs/operators';
+import { ChambermaidModel } from '../chambermaid/chambermaid.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,10 +34,32 @@ export class CustomersService {
     .pipe();
   }
 
-  addTrackRecord(userId, referralsId, url , content): Observable<any> {
-    return this.http.post<any>(`/mkt/api/mp/trackrecord`, {createId: userId, referralsId: referralsId , url , content})
+  addTrackRecord(userId, referralsId, urls , content, handleType): Observable<any> {
+    return this.http.post<any>(`/mkt/api/mp/trackrecord`, {createId: userId, referralsId: referralsId , urls , content, handleType})
     .pipe();
   }
   
+  delTrackRecord(id): Observable<any> {
+    return this.http.delete<any>(`/mkt/api/mp/trackrecord/${id}`)
+    .pipe();
+  }
 
+  getListByChambermaid(): Observable<any> {
+    return this.http.get<any>(`/mkt/api/mp/referrals/list/chambermaid`)
+    .pipe(
+      map(
+        (res: any) => {
+          const {data, ...otherData} = res;
+
+          const updatedListingData = data.map((item, index, arr) => {
+            // Relative date (better to showcase UI micro-interactions)
+            item.phone = item.phone.replace(/(\d{3})(\d{4})(\d{4})/, "$1****$3");
+            return {...item};
+          });
+
+          return updatedListingData;
+        }
+      )
+    );
+  }
 }

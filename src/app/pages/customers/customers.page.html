@@ -1,9 +1,9 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="app/home"></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
+  <!-- <ion-toolbar> -->
+    <!-- <ion-buttons slot="start"> -->
+      <!-- <ion-back-button defaultHref="app/home"></ion-back-button> -->
+    <!-- </ion-buttons> -->
+  <!-- </ion-toolbar> -->
 </ion-header>
 
 <ion-content class="user-friends-content">
@@ -19,7 +19,7 @@
     </ion-segment-button>
   </ion-segment>
 
-  <ion-searchbar class="friends-searchbar" animated [(ngModel)]="searchQuery" (ionChange)="searchList()"></ion-searchbar>
+  <ion-searchbar class="friends-searchbar" animated [(ngModel)]="searchQuery" (ionChange)="searchList()" placeholder="搜索"></ion-searchbar>
 
   <ng-template #customerItem let-item="item">
     <ion-row class="user-details-section">

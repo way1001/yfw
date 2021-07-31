@@ -205,7 +205,10 @@ export class HomePage implements OnInit {
 
         this.presentAlertConfirm('推荐反馈', str);
 
+        this.f.phone.setValue('');
+
         this.completed = true;
+
       }
     );
 

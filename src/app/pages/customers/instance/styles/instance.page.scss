@@ -3,6 +3,8 @@
 :host {
   --page-margin: var(--app-broad-margin);
   --page-background: var(--app-background-shade);
+
+  --page-pictures-gutter: calc(var(--page-margin) / 4);
 }
 
 // Note:  All the CSS variables defined below are overrides of Ionic elements CSS Custom Properties
@@ -97,19 +99,23 @@
       }
 
       .activity-details {
-        text-align: center;
+        // text-align: center;
         position: relative;
 
         .activity-name {
           margin: 0px;
           margin-top: 5px;
           font-size: 14px;
+
+          .type{
+            color: rgb(43, 23, 226);
+         }
         }
 
         .activity-category {
           display: block;
           margin-top: 2px;
-          font-size: 12px;
+          font-size: 10px;
         }
 
         .activity-rating {
@@ -133,6 +139,17 @@
             margin-left: 4px;
           }
         }
+      }
+
+      .picture-wrapper {
+        --col-item-width: 4;
+        // SSR fix: Override ion-col styles
+        flex: 0 0 calc(calc(var(--col-item-width) / var(--ion-grid-columns, 12)) * 100%);
+        width: calc(calc(var(--col-item-width) / var(--ion-grid-columns, 12)) * 100%);
+        max-width: calc(calc(var(--col-item-width) / var(--ion-grid-columns, 12)) * 100%);
+  
+        padding: 0px var(--page-pictures-gutter);
+        
       }
     }
   }

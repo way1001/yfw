@@ -81,7 +81,7 @@ export class CustomersPage implements OnInit {
       }
     } else if (this.userRole === 'access' || this.userRole === 'manager') {
       combination = {
-        affiliationId: this.affiliated[0],
+        affiliationId: this.affiliated,
       }
     } else if (this.userRole === 'salesman') {
       combination = {
