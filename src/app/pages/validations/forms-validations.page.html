@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button>返回</ion-back-button>
     </ion-buttons>
     <ion-title>完善用户信息</ion-title>
   </ion-toolbar>
@@ -28,7 +28,7 @@
       </ion-list-header>
 
       <ion-item class="input-item">
-        <ion-label position="floating">名称</ion-label>
+        <ion-label position="floating">姓名</ion-label>
         <ion-input type="text" formControlName="real_name" clearInput required></ion-input>
       </ion-item>
       <div class="error-container">
@@ -40,10 +40,10 @@
         </ng-container>
       </div>
 
-      <ion-item class="input-item">
+      <!-- <ion-item class="input-item">
         <ion-label position="floating">昵称</ion-label>
         <ion-input type="text" formControlName="nick_name" clearInput></ion-input>
-      </ion-item>
+      </ion-item> -->
 
 
       <ion-item class="input-item item-label-floating">
@@ -108,6 +108,7 @@
 
     </ion-list>
 
-    <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!validationsForm.valid || (!ownInfo.headimgUrl && !f.headimg_url.value[0]?.link)" (click)="onSubmit()">提交</ion-button>
+    <!-- allows image nulls || (!ownInfo.headimgUrl && !f.headimg_url.value[0]?.link) -->
+    <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!validationsForm.valid" (click)="onSubmit()">提交</ion-button>
   </form>
 </ion-content>

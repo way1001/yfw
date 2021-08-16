@@ -37,7 +37,7 @@
       <ion-item class="input-item item-label-floating">
         <ion-label position="floating">带看方式</ion-label>
         <ion-select formControlName="take_way" cancelText="取消" okText="确认" [disabled]="!f.all_no.value">
-          <ion-select-option *ngFor="let takeWay of takeWays" [value]="takeWay" [disabled]="f.all_no.value==='隐号推荐'&& takeWay==='需带看'">{{ takeWay }}</ion-select-option>
+          <ion-select-option *ngFor="let takeWay of takeWays" [value]="takeWay" [disabled]="f.all_no.value==='隐号推荐'&& takeWay==='平台带看'">{{ takeWay }}</ion-select-option>
         </ion-select>
       </ion-item>
 
@@ -92,19 +92,19 @@
               <ion-checkbox color="secondary" [formControlName]="'aff_' + i" [disabled]="aff.delFlag=='1'"></ion-checkbox>
             </ion-col>
             <ion-col size="2">
-              <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+              <app-aspect-ratio [ratio]="{w: 4, h: 3}">
                 <app-image-shell class="notification-image"
                   [src]="aff.firstFigure" [alt]="'aff image'">
                 </app-image-shell>
               </app-aspect-ratio>
             </ion-col>
             <ion-col class="details-wrapper">
-              <h2 class="details-name">{{aff.projectName}}</h2>
-              <p class="details-description">客户有效期：{{aff.validity}}天</p>
+              <h2 class="details-name">{{aff.projectName}}({{aff?.region}})</h2>
+              <p class="details-description">客户有效期：{{aff?.validity}}天</p>
             </ion-col>
             <ion-col size="3.5" class="date-wrapper">
               <h3 class="average-price">均价：{{aff.price}}元/㎡</h3>
-              <p class="commission-rating" (click)="presentCommissionConfirm(aff?.commission)">佣金标准</p>
+              <p class="commission-rating" (click)="getCommission(aff?.commission)">佣金标准</p>
             </ion-col>
           </ion-row>
         </ion-item>
@@ -155,7 +155,7 @@
       </ion-item> -->
     </ion-list>
 
-    <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!validationsForm.valid && completed">提交
+    <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!validationsForm.valid">提交
     </ion-button>
   </form>
 </ion-content>

@@ -139,7 +139,7 @@ export class TrackRecordPage implements OnInit{
       case 'add':
         new Compressor(this.dataURItoBlob(files[index].url), {
           quality: 0.6,
-          convertSize: 500000,
+          convertSize: 200000,
           success(result) {
             const formData = new FormData();
 

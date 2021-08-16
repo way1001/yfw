@@ -90,7 +90,7 @@ export class FormsValidationsPage implements OnInit {
 
     this.validationsForm = new FormGroup({
       'real_name': new FormControl('', Validators.required),
-      'nick_name': new FormControl(''),
+      // 'nick_name': new FormControl(''),
       'gender': new FormControl('', Validators.required),
       'phone': new FormControl({ value: '', disabled: true }),
       'province': new FormControl(''),
@@ -117,7 +117,7 @@ export class FormsValidationsPage implements OnInit {
     if (mb.phone) {
 
       this.f.real_name.setValue(mb.realName);
-      this.f.nick_name.setValue(mb.nickName);
+      // this.f.nick_name.setValue(mb.nickName);
       this.f.gender.setValue(this.genders[mb.sex]);
       this.f.about.setValue(mb.about);
       this.f.phone.setValue(mb.phone);
@@ -134,9 +134,9 @@ export class FormsValidationsPage implements OnInit {
     let headimgUrl = this.imgChange === false ? this.ownInfo.headimgUrl : (this.f.headimg_url.value[0] ? (this.f.headimg_url.value[0].link ? this.f.headimg_url.value[0].link : '') : '');
 
 
-    this.formsValidationsService.updateInfo(this.ownInfo.id, this.f.real_name.value, this.f.nick_name.value,
-      this.genders.indexOf(this.f.gender.value) || 0, this.f.phone.value, this.f.province.value, this.f.city.value,
-      this.f.about.value, headimgUrl).subscribe(
+    this.formsValidationsService.updateInfo(this.ownInfo.id, this.f.real_name.value,
+      this.genders.indexOf(this.f.gender.value) || 0, this.f.phone.value, this.f.province.value || '', this.f.city.value || '',
+      this.f.about.value || '', headimgUrl).subscribe(
         res => {
           if (res.ok) {
             this.router.navigate(['/app/home']);
@@ -262,7 +262,7 @@ export class FormsValidationsPage implements OnInit {
     return new Promise<File>((resolve, reject) => {
       new Compressor(file, {
         quality: 0.6,
-        convertSize: 500000,
+        convertSize: 200000,
         success: (result) => {
           resolve(new File([result], file.name ? file.name : '', { type: result.type }))
         },

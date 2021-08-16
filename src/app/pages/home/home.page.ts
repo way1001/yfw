@@ -4,7 +4,7 @@ import { HomeService } from './home.service';
 import { ToastService } from '@core/_service/toast.service';
 import { empty, Observable } from 'rxjs';
 import { expand, reduce } from 'rxjs/operators';
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 declare var WeixinJSBridge: any;
@@ -16,6 +16,8 @@ declare var WeixinJSBridge: any;
   ]
 })
 export class HomePage implements OnInit {
+  private loadingElement: any;
+  private singleLoading = false;
 
   validationsForm: FormGroup;
   checkboxAffsForm: FormGroup;
@@ -27,7 +29,7 @@ export class HomePage implements OnInit {
 
   affList: [];
 
-  completed = true;
+  // completed = true;
   disappeared = false;
   takeWayDis = true;
 
@@ -54,7 +56,8 @@ export class HomePage implements OnInit {
   constructor(private homeService: HomeService,
     private toastService: ToastService,
     public alertController: AlertController,
-    public router: Router) {
+    public router: Router,
+    private loadingController: LoadingController) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser')); 
 
     // this.platform.keyboardDidShow.subscribe(ev => {
@@ -85,7 +88,7 @@ export class HomePage implements OnInit {
       '隐号推荐',
     ];
     this.takeWays = [
-      '需带看',
+      '平台带看',
       '自行带看',
       '陪同前往'
     ];
@@ -133,6 +136,12 @@ export class HomePage implements OnInit {
 
   onSubmit(values) {
 
+    const isReg = JSON.parse(localStorage.getItem('isReg'))
+    if (isReg === '0') {
+      this.router.navigate(['auth/signup']);
+      return
+    }
+
     if (localStorage.getItem('userRole') && localStorage.getItem('userRole') != '') {
       this.toastService.presentToast('您的角色不允许推荐！');
       return
@@ -152,7 +161,12 @@ export class HomePage implements OnInit {
       return
     }
 
-    this.completed = false;
+    if (this.singleLoading === false) {
+      this.presentLoader();
+      this.singleLoading = true;
+    }
+
+    // this.completed = false;
 
     this.recommendRequest().subscribe(
       res => {
@@ -207,7 +221,8 @@ export class HomePage implements OnInit {
 
         this.f.phone.setValue('');
 
-        this.completed = true;
+        // this.completed = true;
+        this.dismissLoader();
 
       }
     );
@@ -401,6 +416,15 @@ export class HomePage implements OnInit {
     await alert.present();
   }
 
+  getCommission(commission) {
+    const isReg = JSON.parse(localStorage.getItem('isReg'))
+    if (isReg === '0') {
+      this.router.navigate(['auth/signup']);
+      return
+    }
+    this.presentCommissionConfirm(commission)
+  }
+
   async presentCommissionConfirm(message) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -423,6 +447,22 @@ export class HomePage implements OnInit {
   noChange() {
     this.f.take_way.setValue('');
     this.f.phone.setValue('');
+  }
+
+  async presentLoader() {
+    this.loadingElement = await this.loadingController.create({
+      message: '提交中 ...'
+    });
+
+    await this.loadingElement.present();
+    const { role, data } = await this.loadingElement.onDidDismiss();
+    this.singleLoading = false; 
+  }
+
+  async dismissLoader() {
+    if (this.loadingElement) {
+      await this.loadingElement.dismiss();
+    }
   }
 
 }

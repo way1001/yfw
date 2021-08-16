@@ -98,7 +98,7 @@ export class AccompanyPage implements OnInit {
     if (this.userRole !== 'secretary') return;
     if (this.currentReferral?.substitute !== '2') return
 
-    this.dealService.updateReferralsDock(this.referralId,  this.description,
+    this.dealService.updateReferralsDis(this.referralId,  this.description,
       this.salesmanId).subscribe(
         res => {
           this.presentAlertConfirm();

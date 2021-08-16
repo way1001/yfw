@@ -13,10 +13,10 @@ export class FormsValidationsService {
     .pipe();
   }
 
-  updateInfo(id, realName, nickName, gender, phone, province, city,
+  updateInfo(id, realName, gender, phone, province, city,
     about, headimgUrl): Observable<any> {
     return this.http.put<any>(`/mkt/api/mp/userinfo`, {id, realName, 
-      nickName, sex: gender, phone, province, city,
+      sex: gender, phone, province, city,
       about, headimgUrl})
     .pipe();
   }
