@@ -1,0 +1,133 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <!-- <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons> -->
+    <ion-title>置业顾问注册</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="signup-content">
+  <h2 class="auth-title">
+    置业顾问注册
+  </h2>
+  <form [formGroup]="signupForm" (ngSubmit)="doSignup()">
+    <ion-list class="inputs-list" lines="full">
+      <ion-item class="input-item item-label-floating">
+        <ion-label position="floating">楼盘选择</ion-label>
+        <!-- <ion-select formControlName="gender" cancelText="Cancel" okText="OK">
+          <ion-select-option *ngFor="let gender of genders" [value]="gender" >{{ gender }}</ion-select-option>
+        </ion-select> -->
+        <ion-select formControlName="basic_info" cancelText="取消" okText="确认">
+          <ion-select-option *ngFor="let item of basicInfos" [value]="item?.id" >{{ item?.projectName }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <!-- <div class="error-container">
+        <ng-container *ngFor="let validation of validations.gender">
+          <div class="error-message" *ngIf="validationsForm.get('gender').hasError(validation.type) && (validationsForm.get('gender').dirty || validationsForm.get('gender').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div> -->
+
+      <ion-item class="input-item">
+        <ion-label position="floating">姓名</ion-label>
+        <ion-input type="text" formControlName="real_name" clearInput required></ion-input>
+      </ion-item>
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validation_messages.real_name">
+          <div class="error-message" *ngIf="signupForm.get('real_name').hasError(validation.type) && (signupForm.get('real_name').dirty || signupForm.get('real_name').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+
+      <ion-item class="input-item item-label-floating">
+        <ion-label position="floating">性别</ion-label>
+        <ion-select formControlName="gender" cancelText="Cancel" okText="OK">
+          <ion-select-option *ngFor="let gender of genders" [value]="gender" >{{ gender }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validation_messages.gender">
+          <div class="error-message" *ngIf="signupForm.get('gender').hasError(validation.type) && (signupForm.get('gender').dirty || signupForm.get('gender').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+
+
+      <ion-item class="input-item ">
+        <ion-label position="floating">电话</ion-label>
+        <ion-input clearInput maxlength="11" placeholder="+86" type="text" formControlName="phone" autocapitalize="off" inputmode="tel"></ion-input>
+      </ion-item>
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validation_messages.phone">
+          <div class="error-message" *ngIf="signupForm.get('phone').hasError(validation.type) && (signupForm.get('phone').dirty || signupForm.get('phone').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- <div formGroupName="matching_passwords"> -->
+        <!-- <ion-item class="input-item"> -->
+          <!-- <app-show-hide-password> -->
+            <!-- <ion-input type="password" placeholder="Password" formControlName="password"></ion-input> -->
+          <!-- </app-show-hide-password> -->
+        <!-- </ion-item> -->
+        <!-- <div class="error-container"> -->
+          <!-- <ng-container *ngFor="let validation of validation_messages.password"> -->
+            <!-- <div class="error-message" *ngIf="signupForm.get('matching_passwords').get('password').hasError(validation.type) && (signupForm.get('matching_passwords').get('password').dirty || signupForm.get('matching_passwords').get('password').touched)"> -->
+              <!-- <ion-icon name="information-circle-outline"></ion-icon> -->
+              <!-- <span>{{ validation.message }}</span> -->
+            <!-- </div> -->
+          <!-- </ng-container> -->
+        <!-- </div> -->
+<!--  -->
+        <!-- <ion-item class="input-item"> -->
+          <!-- <app-show-hide-password> -->
+            <!-- <ion-input type="password" placeholder="Confirm Password" formControlName="confirm_password"></ion-input> -->
+          <!-- </app-show-hide-password> -->
+        <!-- </ion-item> -->
+        <!-- <div class="error-container"> -->
+          <!-- <ng-container *ngFor="let validation of validation_messages.confirm_password"> -->
+            <!-- <div class="error-message" *ngIf="signupForm.get('matching_passwords').get('confirm_password').hasError(validation.type) && (signupForm.get('matching_passwords').get('confirm_password').dirty || signupForm.get('matching_passwords').get('confirm_password').touched)"> -->
+              <!-- <ion-icon name="information-circle-outline"></ion-icon> -->
+              <!-- <span>{{ validation.message }}</span> -->
+            <!-- </div> -->
+          <!-- </ng-container> -->
+        <!-- </div> -->
+      <!-- </div> -->
+      <!-- <div class="error-container"> -->
+        <!-- <ng-container *ngFor="let validation of validation_messages.matching_passwords"> -->
+          <!-- <div class="error-message" *ngIf="signupForm.get('matching_passwords').hasError(validation.type) && (signupForm.get('matching_passwords').get('confirm_password').dirty || signupForm.get('matching_passwords').get('confirm_password').touched)"> -->
+            <!-- <ion-icon name="information-circle-outline"></ion-icon> -->
+            <!-- <span>{{ validation.message }}</span> -->
+          <!-- </div> -->
+        <!-- </ng-container> -->
+      <!-- </div> -->
+    </ion-list>
+
+    <ion-button class="signup-btn" type="submit" expand="block" [disabled]="!signupForm.valid" (click)="showSmsModal()">获取短信验证</ion-button>
+    <!-- <ion-row class="other-auth-options-row"> -->
+      <!-- <ion-button class="login-btn" fill="clear" [routerLink]="['/auth/login']"> -->
+        <!-- Already have an account? -->
+      <!-- </ion-button> -->
+    <!-- </ion-row> -->
+  </form>
+
+  <!-- <div class="social-auth-options"> -->
+    <!-- <p class="options-divider">Or</p> -->
+    <!-- <ion-button class="social-auth-btn facebook-auth-btn" expand="block" color="facebook" (click)="doFacebookSignup()">Sign Up with Facebook</ion-button> -->
+    <!-- <ion-button class="social-auth-btn google-auth-btn" expand="block" color="google" (click)="doGoogleSignup()">Sign Up with Google</ion-button> -->
+    <!-- <ion-button class="social-auth-btn twitter-auth-btn" expand="block" color="twitter" (click)="doTwitterSignup()">Sign Up with Twitter</ion-button> -->
+  <!-- </div> -->
+
+  <div class="legal-stuff">
+    创建代表同意顾房通<a class="legal-action" (click)="showTermsModal()">用户协议</a> 、 <a class="legal-action" (click)="showPrivacyModal()">隐私政策</a>.
+  </div>
+</ion-content>

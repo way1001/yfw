@@ -35,6 +35,7 @@
     "ng-zorro-antd-mobile": "^4.0.0",
     "ngx-clipboard": "^14.0.1",
     "ngx-ionic-image-viewer": "^0.7.4",
+    "qrcode": "^1.4.4",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"

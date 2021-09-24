@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">关闭</ion-button>
+    </ion-buttons>
+    <!-- <ion-title> -->
+    <!-- 详情 -->
+    <!-- </ion-title> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="legal-content">
+  <h3 class="legal-title">手机号换帮</h3>
+  <p class="legal-text">
+    您换绑的手机号 +86 {{phone}}
+  </p>
+
+  <form [formGroup]="bindingForm" (ngSubmit)="doBinding()">
+    <ion-list class="inputs-list" lines="full">
+      <ion-item class="input-item">
+        <!-- <ion-label position="floating">Phone</ion-label> -->
+        <ion-input clearInput maxlength="11" placeholder="+86" type="text" formControlName="phone" autocapitalize="off"
+          inputmode="tel"></ion-input>
+      </ion-item>
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validation_messages.phone">
+          <div class="error-message"
+            *ngIf="bindingForm.get('phone').hasError(validation.type) && (bindingForm.get('phone').dirty || bindingForm.get('phone').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+
+      <ion-row>
+        <ion-col size="9">
+          <ion-item class="input-item">
+            <app-show-hide-send>
+              <ion-input type="code" placeholder="验证码" formControlName="code"></ion-input>
+            </app-show-hide-send>
+          </ion-item>
+          <div class="error-container">
+            <ng-container *ngFor="let validation of validation_messages.code">
+              <div class="error-message"
+                *ngIf="bindingForm.get('code').hasError(validation.type) && (bindingForm.get('code').dirty || bindingForm.get('code').touched)">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                <span>{{ validation.message }}</span>
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+        <ion-col size="3">
+          <ion-button size="small" (click)="getSms()" [disabled]="!bindingForm.get('phone').valid">验证码</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-list>
+
+    <ion-button class="bingding-btn" type="submit" expand="block" [disabled]="!bindingForm.valid">确认换绑</ion-button>
+
+  </form>
+
+
+</ion-content>

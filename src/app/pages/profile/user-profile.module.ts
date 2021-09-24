@@ -5,12 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { UserService } from './user.service';
 import { UserProfilePage } from './user-profile.page';
 import { UserProfileResolver } from './user-profile.resolver';
 import { ComponentsModule } from '../../components/components.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy.page';
+import { ListingPage } from '../transact/listing/listing.page';
 
 
 const routes: Routes = [
@@ -32,10 +32,10 @@ const routes: Routes = [
     ComponentsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [UserProfilePage, PrivacyPolicyPage],
+  declarations: [UserProfilePage, PrivacyPolicyPage, ListingPage],
   providers: [
     UserProfileResolver,
   ],
-  entryComponents: [PrivacyPolicyPage],
+  entryComponents: [PrivacyPolicyPage, ListingPage],
 })
 export class UserProfilePageModule {}

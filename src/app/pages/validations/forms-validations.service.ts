@@ -13,11 +13,17 @@ export class FormsValidationsService {
     .pipe();
   }
 
-  updateInfo(id, realName, gender, phone, province, city,
-    about, headimgUrl): Observable<any> {
+  // updateInfo(id, realName, gender, phone, province, city,
+  //   about, headimgUrl): Observable<any> {
+  //   return this.http.put<any>(`/mkt/api/mp/userinfo`, {id, realName, 
+  //     sex: gender, phone, province, city,
+  //     about, headimgUrl})
+  //   .pipe();
+  // }
+
+  updateInfo(id, realName, gender, phone, headimgUrl): Observable<any> {
     return this.http.put<any>(`/mkt/api/mp/userinfo`, {id, realName, 
-      sex: gender, phone, province, city,
-      about, headimgUrl})
+      sex: gender, phone, headimgUrl})
     .pipe();
   }
 

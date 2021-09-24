@@ -22,6 +22,7 @@ export class InstancePage implements OnInit{
   taskList;
   currentReferrals;
   trackRecord;
+  userRole;
 
   constructor(private modalController: ModalController,
     private customersService: CustomersService,
@@ -40,6 +41,7 @@ export class InstancePage implements OnInit{
         title: '到期',
       }
     ];
+    this.userRole = localStorage.getItem('userRole');
     if (this.instanceId) {
 
       this.transactService.getCurrentReferrals(this.instanceId).subscribe(

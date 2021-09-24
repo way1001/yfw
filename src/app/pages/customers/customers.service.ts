@@ -34,8 +34,8 @@ export class CustomersService {
     .pipe();
   }
 
-  addTrackRecord(userId, referralsId, urls , content, handleType): Observable<any> {
-    return this.http.post<any>(`/mkt/api/mp/trackrecord`, {createId: userId, referralsId: referralsId , urls , content, handleType})
+  addTrackRecord(affiliationId, userId, referralsId, urls , content, handleType): Observable<any> {
+    return this.http.post<any>(`/mkt/api/mp/trackrecord`, {affiliationId, createId: userId, referralsId: referralsId , urls , content, handleType})
     .pipe();
   }
   

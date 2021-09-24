@@ -33,7 +33,7 @@
         {{currentReferral?.description}}
       </p>
     </ion-col>
-    <ion-col size="12">
+    <!-- <ion-col size="12">
       <h4 class="preference-name">经纪人：</h4>
       <p class="preference-value">
         {{currentReferral?.brokerName}}
@@ -44,10 +44,22 @@
       <p class="preference-value">
         {{currentReferral?.brokerPhone}}
       </p>
+    </ion-col> -->
+    <ion-col size="12">
+      <h4 class="preference-name">楼盘对接人：</h4>
+      <p class="preference-value">
+        {{currentDocking?.realName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">楼盘对接人电话：</h4>
+      <p class="preference-value">
+        <a style="text-decoration:underline;" [href]="'tel: ' + currentDocking?.phone">{{currentDocking?.phone}}</a>
+      </p>
     </ion-col>
   </ion-row>
 
-  <ion-item-divider>
+  <!-- <ion-item-divider>
     <ion-label>添加跟办信息</ion-label>
   </ion-item-divider>
 
@@ -58,8 +70,8 @@
   <ion-item class="input-item item-label-floating">
     <ion-label position="floating">联系电话</ion-label>
     <ion-input type="text" value="customer_name" clearInput required></ion-input>
-  </ion-item>
+  </ion-item> -->
 
-  <ion-button class="submit-btn" type="submit" expand="block" fill="outline" (click)="onSubmit()">提交</ion-button>
+  <!-- <ion-button class="submit-btn" type="submit" expand="block" fill="outline" (click)="onSubmit()">提交</ion-button> -->
 
 </ion-content>

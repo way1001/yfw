@@ -37,7 +37,8 @@
               "src/global.scss"
             ],
             "scripts": [
-              "src/assets/jweixin/jweixin-1.6.0.js"
+              "src/assets/jweixin/jweixin-1.6.0.js",
+              "node_modules/qrcode/build/qrcode.js"
             ],
             "aot": false,
             "vendorChunk": true,

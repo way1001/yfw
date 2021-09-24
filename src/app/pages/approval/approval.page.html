@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <!-- <ion-back-button defaultHref="app/categories/food"></ion-back-button> -->
+    </ion-buttons>
+    <ion-title>人员管理</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="food-details-content">
+  <hr class="details-divider">
+  <div class="reviews-wrapper">
+    <h3 class="detail-title">待审核列表</h3>
+    <hr class="details-divider">
+     <div class="reviews-list">
+      <div class="review-item" *ngFor="let salesman of salesmanList">
+        <ion-row class="review-user" *ngIf="salesman?.auditStatus === '0'"> 
+          <ion-col class="user-image-wrapper">
+            <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+              <app-image-shell class="review-user-image" [src]="salesman?.headimgUrl" [alt]="'salesman image'"></app-image-shell>
+            </app-aspect-ratio>
+          </ion-col>
+          <ion-col class="user-brief-wrapper">
+            <h5 class="review-user-name">
+              <app-text-shell [data]="salesman?.realName"></app-text-shell>
+            </h5>
+            <ion-row class="details-scores user-scores">
+              <ion-col class="score-item user-score">
+                <ion-icon name="male-outline" style="color: blue;" *ngIf="salesman?.sex === '1'; else falsyTemplate"></ion-icon>
+                <ng-template #falsyTemplate>
+                  <ion-icon name="female-outline" style="color: crimson;"></ion-icon>
+                </ng-template>
+                <div class="score-value">
+                  <app-text-shell [data]="salesman?.phone"></app-text-shell>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+          <ion-col class="review-info-wrapper">
+            <span class="review-date">
+              <app-text-shell [data]="projectName(salesman?.affiliated[0])"></app-text-shell>
+            </span>
+            <ion-row>
+              <ion-col>
+                <div class="review-rating" [attr.ratingBase]="4 | floor" (click)="update(salesman?.id, '1')">
+                  <app-text-shell [data]="'通过'"></app-text-shell>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div class="review-rating" [attr.ratingBase]="2 | floor" (click)="update(salesman?.id, '2')">
+                  <app-text-shell [data]="'拒绝'"></app-text-shell>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+        
+      </div>
+    </div>
+  </div>
+  <div class="reviews-wrapper">
+    <h3 class="detail-title">置业顾问列表</h3>
+    <hr class="details-divider">
+    <div class="reviews-list">
+      <div class="review-item" *ngFor="let salesman of salesmanList">
+        <ion-row class="review-user" *ngIf="salesman?.auditStatus === '1'">
+          <ion-col class="user-image-wrapper">
+            <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+              <app-image-shell class="review-user-image" [src]="salesman?.headimgUrl" [alt]="'salesman image'"></app-image-shell>
+            </app-aspect-ratio>
+          </ion-col>
+          <ion-col class="user-brief-wrapper">
+            <h5 class="review-user-name">
+              <app-text-shell [data]="salesman?.realName"></app-text-shell>
+            </h5>
+            <ion-row class="details-scores user-scores">
+              <ion-col class="score-item user-score">
+                <ion-icon name="male-outline" style="color: blue;" *ngIf="salesman?.sex === '1'; else falsyTemplate"></ion-icon>
+                <ng-template #falsyTemplate>
+                  <ion-icon name="female-outline" style="color: crimson;"></ion-icon>
+                </ng-template>
+                <div class="score-value">
+                  <app-text-shell [data]="salesman?.phone"></app-text-shell>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+          <ion-col class="review-info-wrapper">
+            <span class="review-date">
+              <app-text-shell [data]="projectName(salesman?.affiliated[0])"></app-text-shell>
+            </span>
+                <div class="review-rating" [attr.ratingBase]="1 | floor" (click)="del(salesman?.id)">
+                  <app-text-shell [data]="'删除'"></app-text-shell>
+                </div>
+          </ion-col>
+        </ion-row>
+        
+      </div>
+    </div>
+  </div>
+</ion-content>

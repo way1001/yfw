@@ -48,15 +48,15 @@ export class AccompanyPage implements OnInit {
         }
       }
     )
-
-    this.allocationService.getSalesmansList().subscribe(
-      resp => {
-        if (resp.ok) {
-          this.salesmans = resp.data;
-          this.salesmans.push({id: this.currentUser?.mktUserId, realName: '我'});
-        }
-      }
-    )
+    //todo
+    // this.allocationService.getSalesmansList().subscribe(
+    //   resp => {
+    //     if (resp.ok) {
+    //       this.salesmans = resp.data;
+    //       this.salesmans.push({id: this.currentUser?.mktUserId, realName: '我'});
+    //     }
+    //   }
+    // )
   }
 
   ngOnInit(): void {

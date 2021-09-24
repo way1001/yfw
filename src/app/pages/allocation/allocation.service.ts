@@ -13,8 +13,8 @@ export class AllocationService {
     private http: HttpClient
   ) { }
 
-  getSalesmansList(): Observable<any> {
-    return this.http.get<any>(`/mkt/api/mp/userinfo/salesmans`)
+  getSalesmansList(affid): Observable<any> {
+    return this.http.get<any>(`/mkt/api/mp/userinfo/salesmans/${affid}`)
     .pipe();
   }
 

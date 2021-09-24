@@ -1,6 +1,7 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from '@app/core/_service/toast.service';
 import { AlertController } from '@ionic/angular';
 import { ClipboardService } from 'ngx-clipboard';
 import { DealService } from '../deal/deal.service';
@@ -26,7 +27,8 @@ export class DockingPage implements OnInit {
     public router: Router,
     private dealService: DealService,
     public alertController: AlertController,
-    private _clipboardService: ClipboardService) {
+    private _clipboardService: ClipboardService,
+    private toastService: ToastService) {
     this.referralId = route.snapshot.params['referralId'];
 
     this.userRole = localStorage.getItem('userRole');
@@ -106,14 +108,19 @@ export class DockingPage implements OnInit {
 // 【报备时间】2021.7.20
 // 【到访时间 】 今天
   copy() {
+    let docking = this.currentReferral?.dockingId ? ("【指定人员】" + this.currentReferral?.dockingName ) : ''
     this._clipboardService.copy(
       "【项目名称】" + this.currentReferral?.basicInfo?.projectName + "\n" +
       "【客户】" + this.currentReferral?.customerName + "\n" +
       "【电话 】" + this.currentReferral?.phone + "\n" +
-      "【公司】" + "湖北昭鸿地产" + "\n" +
+      "【公司】" + "湖北易房网" + "\n" +
       "【客户情况】" + this.currentReferral?.description + "\n" +
-      "【报备时间】" + this.currentReferral?.createTime
+      "【报备时间】" + this.currentReferral?.createTime + "\n" +
+      docking
+      // + this.currentReferral?.dockingId ? (
+      // + "\n" + "【指定人员】" + this.currentReferral?.dockingName ) : ''
     );
+    this.toastService.presentToast('复制成功！');
   }
 
 }

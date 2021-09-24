@@ -9,6 +9,7 @@ import { catchError, map } from 'rxjs/operators';
 
 import Compressor from 'compressorjs';
 import { CustomersService } from '../customers.service';
+import { ToastService } from '@app/core/_service/toast.service';
 
 @Component({
   selector: 'app-track-record',
@@ -27,6 +28,7 @@ export class TrackRecordPage implements OnInit{
   intention: [];
   @Input() referralsId;
   @Input() userId;
+  @Input() affiliationId;
 
   multiple = 1;
 
@@ -47,13 +49,15 @@ export class TrackRecordPage implements OnInit{
   constructor(private modalController: ModalController,
     private uploadService: UploadService,
     private loadingController: LoadingController,
-    private customersService: CustomersService) { }
+    private customersService: CustomersService,
+    private toastService: ToastService) { }
 
   ngOnInit(): void {
     this.handleTypes = [
       '跟办',
       '来访/带看（需审核）',
-      '成交确认（需审核）'
+      '成交确认（需审核）',
+      '佣金结算（需审核）',
     ];
 
     this.validationsForm = new FormGroup({
@@ -107,7 +111,7 @@ export class TrackRecordPage implements OnInit{
       element.link ? picUrls.push(element.link) : ''
     });
 
-    this.customersService.addTrackRecord(this.userId, this.referralsId, 
+    this.customersService.addTrackRecord(this.affiliationId, this.userId, this.referralsId, 
       picUrls, this.f.details.value, this.handleTypes.indexOf(this.f.handle_type.value) || 0).subscribe(
       res => {
         if (res.ok) {
@@ -116,6 +120,8 @@ export class TrackRecordPage implements OnInit{
         //   this.modalController.dismiss({
         //     'intention': this.intention
         // });
+        }else {
+          this.toastService.presentErrorToast(res.msg);
         }
       })
   }

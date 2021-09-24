@@ -20,7 +20,7 @@ export class AuthenticationService {
 
   login(code) {
     //TODO appid will set global on last version
-    return this.http.post<any>('weixin/api/mp/wxuser/login', {appId: 'wxba8fbb58ebb3b73c',code})
+    return this.http.post<any>('weixin/api/mp/wxuser/login', {appId: 'wx0bc7ddf3bb227acc',code})
       .pipe(map((res: any) => {
         // login successful if there's a jwt token in the response
         // use thinkjs promise res data return {msg {data}}

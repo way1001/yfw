@@ -1,11 +1,11 @@
 {
   "/weixin": {
-    "target": "https://tm.kehuoa.com",
+    "target": "https://dev.aiforest.net",
     "secure": false,
     "changeOrigin": true
   },
   "/mkt": {
-    "target": "https://tm.kehuoa.com",
+    "target": "https://dev.aiforest.net",
     "secure": false,
     "changeOrigin": true
   }

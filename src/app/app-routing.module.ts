@@ -19,6 +19,10 @@ const routes: Routes = [
         loadChildren: () => import('./pages/signup/signup.module').then(m => m.SignupPageModule)
       },
       {
+        path: 'auth/ssignup',
+        loadChildren: () => import('./pages/ssignup/ssignup.module').then(m => m.SSignupPageModule)
+      },
+      {
         path: 'forms-and-validations',
         loadChildren: () => import('./pages/validations/forms-validations.module').then(m => m.FormsValidationsPageModule)
       },
@@ -29,6 +33,10 @@ const routes: Routes = [
       {
         path: 'chambermaid',
         loadChildren: () => import('./pages/chambermaid/chambermaid.module').then(m => m.ChambermaidPageModule)
+      },
+      {
+        path: 'approval',
+        loadChildren: () => import('./pages/approval/approval.module').then(m => m.ApprovalModule)
       },
       // {
       //   path: 'transact',
@@ -57,6 +65,14 @@ const routes: Routes = [
       {
         path: 'accompany/:referralId',
         loadChildren: () => import('./pages/accompany/accompany.module').then(m => m.AccompanyModule)
+      },
+      {
+        path: 'visit/:instanceId',
+        loadChildren: () => import('./pages/visit-confirm/visit-confirm.module').then(m => m.VisitConfirmModule)
+      },
+      {
+        path: 'visit-audit/:instanceId',
+        loadChildren: () => import('./pages/visit-audit/visit-audit.module').then(m => m.VisitAuditModule)
       }
     ]
   },

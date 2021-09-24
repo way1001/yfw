@@ -79,7 +79,11 @@ export class CustomersPage implements OnInit {
       combination = {
         brokerId: currentUser?.mktUserId,
       }
-    } else if (this.userRole === 'access' || this.userRole === 'manager') {
+    } else if (this.userRole === 'manager') {
+      combination = {
+      }
+    }
+    else if (this.userRole === 'access') {
       combination = {
         affiliationId: this.affiliated,
       }

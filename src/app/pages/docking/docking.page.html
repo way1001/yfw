@@ -34,6 +34,12 @@
         {{currentReferral?.description}}
       </p>
     </ion-col>
+    <ion-col size="12" *ngIf="currentReferral?.dockingId">
+      <h4 class="preference-name">指定跟办人员：</h4>
+      <p class="preference-value">
+        {{currentReferral?.dockingName}}({{currentReferral?.dockingPhone}})
+      </p>
+    </ion-col>
     <ion-button color="primary" size="small" (click)="copy()">复制报备信息</ion-button>
 
   </ion-row>

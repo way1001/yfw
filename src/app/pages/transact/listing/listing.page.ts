@@ -47,8 +47,10 @@ export class ListingPage implements OnInit{
     if (tr) {
       if (tr?.name === '楼盘判客') {
         this.router.navigate(['/transact/', tr?.processInstanceId]);
-      } else if (tr?.name === '客服分配') {
+      } else if (tr?.name === '经理审核') {
         this.router.navigate(['/allocation/', tr?.processInstanceId]);
+      } else if (tr?.name === '到访审核') {
+        this.router.navigate(['/visit-audit/', tr?.processInstanceId]);
       }
     }
     this.modalController.dismiss();

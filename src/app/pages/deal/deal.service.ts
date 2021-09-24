@@ -28,4 +28,9 @@ export class DealService {
     .pipe();
   }
 
+  updateReferralsReminder(id, reminderTime, reminderFlag): Observable<any> {
+    return this.http.put<any>(`/mkt/api/mp/referrals/ref`, {id, reminderTime, reminderFlag})
+    .pipe();
+  }
+
 }

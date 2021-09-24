@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ComponentsModule } from '../../components/components.module';
 import { FormsValidationsPage } from './forms-validations.page';
 import { ImagePickerModule } from 'ng-zorro-antd-mobile';
+import { BindingPage } from './binding/binding.page';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
     ComponentsModule,
     ImagePickerModule,
   ],
-  declarations: [FormsValidationsPage]
+  entryComponents: [BindingPage],
+  declarations: [FormsValidationsPage, BindingPage]
 })
 export class FormsValidationsPageModule {}

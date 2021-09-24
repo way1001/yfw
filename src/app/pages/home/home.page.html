@@ -1,8 +1,13 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>
-      首页推荐
+      客户推荐
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goHome()">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -34,12 +39,13 @@
         </ion-select>
       </ion-item>
 
-      <ion-item class="input-item item-label-floating">
-        <ion-label position="floating">带看方式</ion-label>
-        <ion-select formControlName="take_way" cancelText="取消" okText="确认" [disabled]="!f.all_no.value">
-          <ion-select-option *ngFor="let takeWay of takeWays" [value]="takeWay" [disabled]="f.all_no.value==='隐号推荐'&& takeWay==='平台带看'">{{ takeWay }}</ion-select-option>
-        </ion-select>
-      </ion-item>
+      <!-- <ion-item class="input-item item-label-floating"> -->
+        <!-- <ion-label position="floating">带看方式</ion-label> -->
+        <!-- <ion-select formControlName="take_way" cancelText="取消" okText="确认" [disabled]="!f.all_no.value"> -->
+          <!-- <ion-select-option *ngFor="let takeWay of takeWays" [value]="takeWay" [disabled]="f.all_no.value==='隐号推荐'&& takeWay==='平台带看'">{{ takeWay }}</ion-select-option> -->
+          <!-- <ion-select-option *ngFor="let takeWay of takeWays" [value]="takeWay" [disabled]="takeWay==='平台带看'">{{ takeWay }}</ion-select-option> -->
+        <!-- </ion-select> -->
+      <!-- </ion-item> -->
 
       <ion-item class="input-item item-label-floating">
         <ion-label position="floating">客户姓名</ion-label>
@@ -69,6 +75,11 @@
         </ng-container>
       </div>
 
+      <ion-item class="input-item">
+        <ion-label position="floating">客户描述</ion-label>
+        <ion-textarea formControlName="description" rows="3" cols="20" clearOnEdit="true" placeholder="请填写客户描述内容..."></ion-textarea>
+      </ion-item>
+
     </ion-list>
 
     <ion-item-divider>
@@ -89,7 +100,7 @@
         <ion-item class="notification-item" lines="none" *ngFor="let aff of affList;let i = index">
             <ion-row class="notification-item-wrapper">
             <ion-col size="1.3" class="date-wrapper" >
-              <ion-checkbox color="secondary" [formControlName]="'aff_' + i" [disabled]="aff.delFlag=='1'"></ion-checkbox>
+              <ion-checkbox color="secondary" [formControlName]="'aff_' + i" [disabled]="aff.delFlag=='1'" (ionChange)="choiceSalesman(aff, $event)"></ion-checkbox>
             </ion-col>
             <ion-col size="2">
               <app-aspect-ratio [ratio]="{w: 4, h: 3}">
@@ -100,7 +111,10 @@
             </ion-col>
             <ion-col class="details-wrapper">
               <h2 class="details-name">{{aff.projectName}}({{aff?.region}})</h2>
-              <p class="details-description">客户有效期：{{aff?.validity}}天</p>
+              <p class="details-description" *ngIf="!checkboxAffsForm.controls['aff_' + i].value; else falsyTemplate">客户有效期：{{aff?.validity}}天</p>
+              <ng-template #falsyTemplate>
+                <p class="details-desp">{{aff?.counselor == '0' ? (aff?.dockingName == '' || !aff?.dockingName ? '未指定人员': (aff?.dockingName == '「不指定人员」'?'「不指定人员」': ('指定：' + aff?.dockingName))) : '楼盘指派'}}</p>
+              </ng-template>
             </ion-col>
             <ion-col size="3.5" class="date-wrapper">
               <h3 class="average-price">均价：{{aff.price}}元/㎡</h3>

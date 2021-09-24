@@ -27,4 +27,10 @@ export class HomeService {
     .pipe();
   }
 
+  salesmanList(id): Observable<any> {
+    return this.http.get<any>(`/mkt/api/mp/salesman/list/${id}`)
+    .pipe();
+  }
+
+
 }

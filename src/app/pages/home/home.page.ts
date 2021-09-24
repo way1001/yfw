@@ -47,8 +47,7 @@ export class HomePage implements OnInit {
     ],
     'phone': [
       { type: 'required', message: '必须输入手机号码！' },
-    ],
-
+    ]
   }
 
   currentUser;
@@ -58,7 +57,7 @@ export class HomePage implements OnInit {
     public alertController: AlertController,
     public router: Router,
     private loadingController: LoadingController) {
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser')); 
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     // this.platform.keyboardDidShow.subscribe(ev => {
     //   const { keyboardHeight } = ev;
@@ -87,15 +86,15 @@ export class HomePage implements OnInit {
       '全号推荐',
       '隐号推荐',
     ];
-    this.takeWays = [
-      '平台带看',
-      '自行带看',
-      '陪同前往'
-    ];
+    // this.takeWays = [
+    //   '平台带看',
+    //   '自行带看',
+    //   '陪同前往'
+    // ];
 
     this.validationsForm = new FormGroup({
       'all_no': new FormControl('', Validators.required),
-      'take_way': new FormControl({value: '', disabled: this.takeWayDis}, Validators.required),
+      // 'take_way': new FormControl({ value: '', disabled: this.takeWayDis }, Validators.required),
       'customer_name': new FormControl('', Validators.compose([
         Validators.maxLength(10),
         Validators.minLength(2),
@@ -108,6 +107,8 @@ export class HomePage implements OnInit {
         Validators.required,
         // Validators.pattern('^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\d{4}$')
       ])),
+      'description': new FormControl(''),
+
     });
 
     this.checkboxAffsForm = new FormGroup({});
@@ -190,20 +191,20 @@ export class HomePage implements OnInit {
               // feedback = true;
               if (this.currentAffids.length <= 0) {
                 // txt = '推荐客户成功' + '\n';
-                this.alertsDocs.push({ 'status': 'success', 'txt': '推荐客户成功' });
-              } else { 
+                this.alertsDocs.push({ 'status': 'success', 'txt': '号码已提交，进入楼盘判客流程！'  + ' <br/> '});
+              } else {
                 // txt = txt + (ml[i].merchant_name ? ml[i].merchant_name : '') + '推荐客户成功' + '\n';
-                this.alertsDocs.push({ 'status': 'success', 'txt': '「' + (aff['projectName']?aff['projectName']:'') + '」推荐客户成功'});
+                this.alertsDocs.push({ 'status': 'success', 'txt': '号码已提交' + '「' + (aff['projectName'] ? aff['projectName'] : '') + '」，进入判客流程！' + ' <br/> '});
               }
 
             } else {
               // feedback = false;
               if (this.currentAffids.length <= 0) {
                 // txt = res[i].errmsg + '\n';
-                this.alertsDocs.push({ status: 'warning', txt: res[i].errmsg });
+                this.alertsDocs.push({ status: 'warning', txt: res[i].errmsg + ' <br/> '});
               } else {
                 // txt = txt + (ml[i].merchant_name ? ml[i].merchant_name : '') + res[i].errmsg + '\n';
-                this.alertsDocs.push({ status: 'warning', txt: '【' + aff['projectName'] ? aff['projectName'] : '' + '】   ' + res[i].errmsg });
+                this.alertsDocs.push({ status: 'warning', txt: '【' + aff['projectName'] ? aff['projectName'] : '' + '】   ' + res[i].errmsg + ' <br/> '});
               }
             }
           }
@@ -213,7 +214,7 @@ export class HomePage implements OnInit {
         // this.feedbackModal.show();
         let str = '';
         this.alertsDocs.forEach(p => {
-          let s = (p.status == 'success' ? '<strong>' : '')  + p.txt + (p.status == 'success' ? '<strong>' : '')
+          let s = (p.status == 'success' ? '<strong>' : '') + p.txt + (p.status == 'success' ? '<strong>' : '')
           str = str + s;
         });
 
@@ -230,6 +231,13 @@ export class HomePage implements OnInit {
 
   }
 
+  clearCheckboxForm() {
+    for (let i = 0; i < this.affList.length; i++) {
+      const t = 'aff_' + i
+      this.checkboxAffsForm.controls[t].setValue(false)
+    }
+  }
+
   inputEvent(e) {
     console.log(e.target.value);
     let num = e.target.value;
@@ -241,7 +249,9 @@ export class HomePage implements OnInit {
         this.f.phone.setValue(prefix + '****' + suffix);
       }
     }
-    this.disappeared = false; 
+    this.disappeared = false;
+    // clear checkbox
+    this.clearCheckboxForm();
     if (num.length >= 11) {
 
       this.homeService.verification(num, this.currentUser?.mktUserId).subscribe(
@@ -270,8 +280,8 @@ export class HomePage implements OnInit {
 
                   console.log(this.affList[index]);
                 }
-                if (tina.length === res.data.length) {
-                  this.disappeared = true; 
+                if (tina.length === this.affList.length) {
+                  this.disappeared = true;
                 }
               }
 
@@ -326,7 +336,7 @@ export class HomePage implements OnInit {
       let aff = this.affList[index];
       var params = {
         'processDefinitionId': aff['marktingDefineId'],
-        'businessKey': 'marketing',
+        'businessKey': 'ting',
         'returnVariables': true,
         'variables': {
           'phone': {
@@ -342,7 +352,7 @@ export class HomePage implements OnInit {
             'type': 'String'
           },
           'description': {
-            'value': '',
+            'value': this.f.description.value,
             'type': 'String'
           },
           'affiliationId': {
@@ -357,14 +367,22 @@ export class HomePage implements OnInit {
             'value': this.currentUser.mktUserId,
             'type': 'String'
           },
+          'salesmanId': {
+            'value': aff['salesmanId'] || '',
+            'type': 'String'
+          },
           'suppression': {
             'value': this.allNos.indexOf(this.f.all_no.value) || 0,
             'type': 'String'
           },
           'helpShow': {
-            'value': this.takeWays.indexOf(this.f.take_way.value) || 0,
-            'type': 'String'
+              'value': this.allNos.indexOf(this.f.all_no.value) + 1 || 0,
+              'type': 'String'
           }
+          // 'helpShow': {
+          //   'value': this.takeWays.indexOf(this.f.all_no.value) + 1 || 0,
+          //   'type': 'String'
+          // }
         }
       }
 
@@ -401,7 +419,7 @@ export class HomePage implements OnInit {
             // console.log('Confirm Okay');
             // this.router.navigate(['/app/referrals']);
             this.f.all_no.setValue('');
-            this.f.take_way.setValue('');
+            // this.f.take_way.setValue('');
             this.f.customer_name.setValue('');
             this.f.phone.setValue('');
 
@@ -445,7 +463,7 @@ export class HomePage implements OnInit {
   }
 
   noChange() {
-    this.f.take_way.setValue('');
+    // this.f.take_way.setValue('');
     this.f.phone.setValue('');
   }
 
@@ -456,7 +474,7 @@ export class HomePage implements OnInit {
 
     await this.loadingElement.present();
     const { role, data } = await this.loadingElement.onDidDismiss();
-    this.singleLoading = false; 
+    this.singleLoading = false;
   }
 
   async dismissLoader() {
@@ -465,4 +483,83 @@ export class HomePage implements OnInit {
     }
   }
 
+  async choiceSalesman(aff, ev) {
+    if (!ev.detail || !aff) {
+      return
+    } else {
+      if (ev.detail.checked == false || aff?.counselor != '0') {
+        return
+      } else {
+        this.homeService.salesmanList(aff?.id).subscribe(
+          res => {
+            if (res) {
+              this.presentAlertRadio(res, aff?.id);
+            }
+          }
+        )
+      }
+    }
+  }
+
+  async presentAlertRadio(salesmanList, affId) {
+    if (!salesmanList || salesmanList.length <= 0) {
+      return
+    }
+    salesmanList.unshift({'realName': '「不指定人员」', 'id': '0'})
+    let selectId, selectName;
+    const inputDatas = salesmanList.map((item, index) => {
+      return {
+        name: 'radio' + index,
+        type: 'radio',
+        label: item?.realName,
+        value: item?.id,
+        handler: (ex) => {
+          // if 
+          selectId = ex.value;
+          selectName = ex.label || '';
+          // console.log(ex);
+        },
+      };
+    })
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: '置业顾问列表',
+      inputs: inputDatas,
+      buttons: [
+        {
+          text: '取消',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            // console.log('Confirm Cancel');
+          }
+        }, {
+          text: '确认',
+          handler: () => {
+            if (selectId) {
+              const tina = this.affList.filter((p) => {
+                return p['id'] === affId;
+              });
+              const index = this.affList.indexOf(tina[0]);
+              // modify index 0 not chooise
+              if (index > -1) {
+              // if (index > -1) {
+                if (selectId !== '0') {
+                  (this.affList[index] as any).salesmanId = selectId;
+                }
+                (this.affList[index] as any).dockingName = selectName;
+              }
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  goHome() {
+    window.location.href = 'https://gft.kehuoa.com';
+  }
+ 
 }

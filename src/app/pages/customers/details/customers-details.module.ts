@@ -11,6 +11,7 @@ import { PipesModule } from '@app/pipes/pipes.module';
 import { TrackRecordPage } from '../track-record/track-record.page';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxIonicImageViewerModule } from 'ngx-ionic-image-viewer';
+import { QrcodePage } from '../qrcode/qrcode.page';
 
 @NgModule({
   imports: [
@@ -25,7 +26,7 @@ import { NgxIonicImageViewerModule } from 'ngx-ionic-image-viewer';
     NgxIonicImageViewerModule,
     RouterModule.forChild([{ path: '', component: CustomersDetailsPage }])
   ],
-  declarations: [CustomersDetailsPage, InstancePage, TrackRecordPage],
-  entryComponents: [InstancePage, TrackRecordPage],
+  declarations: [CustomersDetailsPage, InstancePage, TrackRecordPage, QrcodePage],
+  entryComponents: [InstancePage, TrackRecordPage, QrcodePage],
 })
 export class CustomersDetailsModule {}

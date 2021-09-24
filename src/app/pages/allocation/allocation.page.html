@@ -66,17 +66,18 @@
 
 
   <ion-item-divider>
-    <ion-label>选择业务员</ion-label>
+    <ion-label>指定置业顾问</ion-label>
   </ion-item-divider>
   <form [formGroup]="salesmanForm" class="validations-form">
-    <ion-item class="input-item item-label-floating">
-      <ion-label position="floating">业务员</ion-label>
-      <ion-select formControlName="salesman" cancelText="Cancel" okText="OK">
+    <ion-item class="input-item item-label-floating" [disabled]="currentSalesman || currentSalesman != ''">
+      <ion-label position="floating" *ngIf="!currentSalesman">选择置业顾问</ion-label>
+      <ion-select formControlName="salesman" cancelText="取消" okText="确认" >
         <ion-select-option *ngFor="let item of salesmans" [value]="item?.id" >{{ item?.realName }}</ion-select-option>
       </ion-select>
     </ion-item>
 
-    <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!salesmanForm.valid" (click)="onSubmit()">提交</ion-button>
+    <!-- <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!salesmanForm.valid" (click)="onSubmit()">提交</ion-button> -->
+    <ion-button class="submit-btn" type="submit" expand="block" fill="outline" (click)="onSubmit()">提交</ion-button>
 
   </form>
 

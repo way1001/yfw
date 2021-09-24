@@ -10,7 +10,7 @@
   <ion-row class="user-details-section">
     <ion-col class="user-image-wrapper">
       <app-aspect-ratio [ratio]="{w: 1, h: 1}">
-        <app-image-shell class="user-image" animation="spinner" [src]="profile?.headimgUrl"></app-image-shell>
+        <app-image-shell class="user-image" animation="spinner" [src]="(profile?.headimgUrl && profile?.headimgUrl!=='')? profile.headimgUrl : (profile?.sex != '2' ? './assets/icon/male.png' : './assets/icon/female.png')"></app-image-shell>
       </app-aspect-ratio>
     </ion-col>
     <ion-col class="user-info-wrapper">
@@ -89,21 +89,68 @@
           </div>
         </app-aspect-ratio> -->
   <!-- </div> -->
-
-  <!-- <div class="user-photos-section">
+  <div class="user-about-section" *ngIf="userRole === '经理' || userRole === '楼盘对接'">
     <ion-row class="heading-row">
-      <h3 class="details-section-title">{{ 'PHOTOS' | translate }}</h3>
-      <a class="heading-call-to-action">{{ 'SEE_ALL' | translate }}</a>
+      <h3 class="details-section-title">{{ '流程办理' | translate }}</h3>
     </ion-row>
-    <ion-row class="pictures-row">
-      <ion-col class="picture-item" *ngFor="let photo of profile?.photos">
+    <ion-col class="user-stats-wrapper" size="6" *ngIf="onHold >= 1">
+      <span class="user-stat-value">您还有{{onHold}}条流程待办理</span>
+      <span class="user-stat-name">
+        <a style="text-decoration:underline;" (click)="presentModal()">点击查看详情</a>
+      </span>
+    </ion-col>
+  </div>
+
+  <div class="user-photos-section" *ngIf="userRole === '经理'">
+    <ion-row class="heading-row">
+      <h3 class="details-section-title">{{ '跟办记录审核' | translate }}</h3>
+      <!-- <a class="heading-call-to-action">{{ '查看全部' | translate }}</a> -->
+    </ion-row>
+    <div class="related-activities-wrapper" *ngIf="auditInfo && auditInfo.length > 0">
+      <!-- <h3 class="detail-alt-title">More activities?</h3> -->
+      <ion-row class="related-activity" *ngFor="let track of auditInfo">
+        <ion-col class="picture-wrapper" *ngFor="let url of track?.urls.slice(0, 3); let i = index">
+          <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+            <app-image-shell class="picture-image" [src]="url" [alt]="'img'" ionImgViewer></app-image-shell>
+          </app-aspect-ratio>
+        </ion-col>
+        <ion-col size="12">
+        </ion-col>
+        <ion-col size="12" class="activity-details">
+          <h5 class="activity-name">
+            <!-- <ion-label class="type"><app-text-shell [data]="track?.handleType"></app-text-shell></ion-label> -->
+            <!-- <app-text-shell [data]="track?.content"></app-text-shell> -->
+            <span style="color: rgb(81, 24, 240);">「{{track?.handleType === '0' ? '普通跟办': (track?.handleType ===
+              '1'? '带看/来访': (track?.handleType === '2'? '成交确认': '佣金结算'))}}」</span>
+            {{track?.content}}
+          </h5>
+          <span class="activity-category">
+            <app-text-shell [data]="track?.createTime"></app-text-shell>
+          </span>
+          <ion-button class="activity-rating" expand="block" fill="clear" color="success" (click)="update(track?.id, 1)">
+            <ion-icon slot="icon-only" name="checkbox"></ion-icon>
+          </ion-button>
+          <ion-button class="activity-close" expand="block" fill="clear" color="warning" (click)="update(track?.id, 2)">
+            <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+          </ion-button>
+          <!-- <div class="activity-rating">
+          <ion-icon class="rating-icon" name="star-outline"></ion-icon>
+          <div class="rating-value"> -->
+          <!-- <app-text-shell [data]="relatedActivity.rating"></app-text-shell> -->
+          <!-- </div> -->
+          <!-- </div> -->
+        </ion-col>
+      </ion-row>
+    </div>
+    <!-- <ion-row class="pictures-row"> -->
+      <!-- <ion-col class="picture-item" *ngFor="let photo of profile?.photos">
         <app-image-shell [display]="'cover'" [src]="photo.image" class="user-photo-image">
           <app-aspect-ratio [ratio]="{w:1, h:1}">
           </app-aspect-ratio>
         </app-image-shell>
-      </ion-col>
-    </ion-row>
-  </div> -->
+      </ion-col> -->
+    <!-- </ion-row> -->
+  </div>
   <div class="legal-stuff">
    新邦网络@ <a class="legal-action" (click)="showPrivacyModal()">隐私政策</a>.
   </div>

@@ -94,8 +94,8 @@
           <app-text-shell [data]="deal?.projectName"></app-text-shell>
         </h4>
         <p class="related-deal-description">
-          {{deal?.currentHandler}} 
-          <span class="status" *ngIf="deal?.currentStatus">「{{deal?.currentStatus==='0'?'跟办中':(deal?.currentStatus==='1'?'已来访':'已成交')}}」</span>
+          {{userRole === '' ? getStatus(deal?.activeStatus) :deal?.currentHandler}} 
+          <!-- <span class="status" *ngIf="deal?.currentStatus">「{{deal?.currentStatus==='0'?'跟办中':(deal?.currentStatus==='1'?'已来访':'已成交')}}」</span> -->
           <!-- <app-text-shell [data]="deal?.currentHandler"></app-text-shell> -->
         </p>
       </ion-col>
@@ -108,9 +108,14 @@
         </p>
       </ion-col> -->
       <ion-col class="stats-col" size="2">
-        <span class="item-rating" [attr.ratingBase]="deal.grade ? deal.grade : 'S'" (click)="presentModal(deal?.instanceId)" >
+        <span class="item-rating" [attr.ratingBase]="deal.grade ? deal.grade : 'S'" (click)="presentModal(deal?.instanceId)" *ngIf="deal.currentHandler !== '到访确认' || userRole !== ''; else falseTemplate">
           <app-text-shell [data]="'详情'"></app-text-shell>
         </span>
+        <ng-template #falseTemplate>
+          <span class="item-rating" [attr.ratingBase]="'C'" (click)="qrcode(deal.instanceId)">
+            <app-text-shell [data]="'到访'"></app-text-shell>
+          </span>
+        </ng-template>
         <!-- <div class="item-price-range"> -->
         <!-- <div class="item-price-range" *ngIf="deal?.substitute === '0' && (!this.userRole || this.userRole === '' || this.userRole === 'salesman')">
           <span class="price" (click)="presentTrackModal()"> 跟办 </span> -->
@@ -118,7 +123,7 @@
           <!-- <span class="no-price" *ngFor="let price of [].constructor(5 - (item.priceRange || 1))">$</span> -->
         <!-- </div> -->
         <div class="item-price-range" *ngIf="deal?.name !== '楼盘判客'">
-          <span class="price" (click)="presentTrackModal(deal?.id)"> 跟办 </span>
+          <span class="price" (click)="presentTrackModal(deal?.id, deal?.affiliationId)"> 跟办 </span>
         </div>
       </ion-col>
     </ion-row>

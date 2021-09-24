@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 
 import Compressor from 'compressorjs';
 import { Router } from '@angular/router';
+import { BindingPage } from './binding/binding.page';
 
 // const data = [
 //   {
@@ -50,6 +51,9 @@ export class FormsValidationsPage implements OnInit {
     'phone': [
       { type: 'required', message: 'Phone is required.' },
     ],
+    'gender': [
+      { type: 'required', message: '需选择性别.' },
+    ],
     /* 'address': [
       { type: 'required', message: 'Number must be between: ' }
     ], */
@@ -70,19 +74,23 @@ export class FormsValidationsPage implements OnInit {
   imgChange2 = false;
 
   currentUser;
+  userRole;
 
   constructor(private formsValidationsService: FormsValidationsService,
     public modalController: ModalController,
     private uploadService: UploadService,
+    private routerOutlet: IonRouterOutlet,
     public router: Router) {
 
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.category = JSON.parse(localStorage.getItem('category'));
+
+    this.userRole = localStorage.getItem('userRole');
   }
 
   async ngOnInit() {
 
-     this.genders = [
+    this.genders = [
       '其它',
       '先生',
       '女士'
@@ -93,9 +101,9 @@ export class FormsValidationsPage implements OnInit {
       // 'nick_name': new FormControl(''),
       'gender': new FormControl('', Validators.required),
       'phone': new FormControl({ value: '', disabled: true }),
-      'province': new FormControl(''),
-      'city': new FormControl(''),
-      'about': new FormControl(''),
+      // 'province': new FormControl(''),
+      // 'city': new FormControl(''),
+      // 'about': new FormControl(''),
       'headimg_url': new FormControl([]),
     });
 
@@ -108,7 +116,7 @@ export class FormsValidationsPage implements OnInit {
         console.log(this.ownInfo);
       }
     })
-    
+
   }
 
   get f() { return this.validationsForm.controls; }
@@ -119,13 +127,13 @@ export class FormsValidationsPage implements OnInit {
       this.f.real_name.setValue(mb.realName);
       // this.f.nick_name.setValue(mb.nickName);
       this.f.gender.setValue(this.genders[mb.sex]);
-      this.f.about.setValue(mb.about);
+      // this.f.about.setValue(mb.about);
       this.f.phone.setValue(mb.phone);
-      this.f.province.setValue(mb.province);
-      this.f.city.setValue(mb.city);
+      // this.f.province.setValue(mb.province);
+      // this.f.city.setValue(mb.city);
 
       mb.headimgUrl ? this.f.headimg_url.setValue([{ url: `${mb.headimgUrl}` }]) : null;
-      
+
     }
   }
 
@@ -135,8 +143,7 @@ export class FormsValidationsPage implements OnInit {
 
 
     this.formsValidationsService.updateInfo(this.ownInfo.id, this.f.real_name.value,
-      this.genders.indexOf(this.f.gender.value) || 0, this.f.phone.value, this.f.province.value || '', this.f.city.value || '',
-      this.f.about.value || '', headimgUrl).subscribe(
+      this.genders.indexOf(this.f.gender.value) || 0, this.f.phone.value, headimgUrl).subscribe(
         res => {
           if (res.ok) {
             this.router.navigate(['/app/home']);
@@ -178,7 +185,7 @@ export class FormsValidationsPage implements OnInit {
               formData.append('dir', '');
               formData.append('fileType', 'image');
 
-              this.uploadFile({ data: formData, inProgress: false, progress: 0});
+              this.uploadFile({ data: formData, inProgress: false, progress: 0 });
               // do whatever you need to do with these files - upload to server or whatever
             }
           }).catch((error) => console.log('ooops :(', error));
@@ -287,7 +294,7 @@ export class FormsValidationsPage implements OnInit {
             file.progress = Math.round(event.loaded * 100 / event.total);
             break;
           case HttpEventType.Response:
-              this.f.headimg_url.value[0].link = event.body.link
+            this.f.headimg_url.value[0].link = event.body.link
             return event;
         }
       }),
@@ -324,5 +331,16 @@ export class FormsValidationsPage implements OnInit {
     console.log(params);
   }
 
-  
+  async showBindingModal() {
+    const modal = await this.modalController.create({
+      component: BindingPage,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+        'phone': this.f.phone.value
+      }
+    });
+    return await modal.present();
+  }
+
 }

@@ -20,5 +20,15 @@ export class UserInfoService {
     return this.http.get<any>(`/mkt/api/mp/userinfo/isreg`)
     .pipe();
   }
-  
+
+  getJsapiSignature(): Observable<any> {
+    return this.http.get<any>(`/mkt/api/mp/userinfo/isreg`)
+    .pipe();
+  }
+
+  getUserById(id): Observable<any> {
+    return this.http.get<any>(`/mkt/api/mp/userinfo/${id}`)
+    .pipe();
+  }
+
 }

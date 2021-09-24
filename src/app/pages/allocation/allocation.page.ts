@@ -26,6 +26,7 @@ export class AllocationPage implements OnInit {
   currentUser;
   currentTaskId;
   currentReferral;
+  currentSalesman;
   consultingIntention;
 
   onHold: 0;
@@ -59,18 +60,31 @@ export class AllocationPage implements OnInit {
                 const phone = data.data?.phone.replace(/(\d{3})(\d{4})(\d{4})/, "$1****$3");
                 this.currentReferral = data.data;
                 this.currentReferral.phone = phone;
+                this.currentSalesman = this.currentReferral?.salesmanId;
                 this.consultingIntention = this.currentReferral?.consultingIntention;
+
+                this.allocationService.getSalesmansList(this.currentReferral?.affiliationId).subscribe(
+                  resp => {
+                    if (resp.ok) {
+                      this.salesmans = resp.data;
+                      if (this.currentSalesman) {
+                        this.salesmanForm.controls.salesman.setValue(this.currentSalesman);
+                      }
+                    } 
+                  }
+                )
               }
+
+              
             }
           )
-          this.allocationService.getSalesmansList().subscribe(
-            resp => {
-              if (resp.ok) {
-                this.salesmans = resp.data;
-                
-              }
-            }
-          )
+          // this.allocationService.getSalesmansList(this.currentReferral?.affiliationId).subscribe(
+          //   resp => {
+          //     if (resp.ok) {
+          //       this.salesmans = resp.data;
+          //     }
+          //   }
+          // )
 
         } else {
           this.presentAlertConfirm('无效办理!', '您当前办理的流程已经办理或已完结!!!')
@@ -169,19 +183,17 @@ export class AllocationPage implements OnInit {
       }
     )
 
-
-
   }
 
   onSubmit() {
     //
     if (this.currentTaskId == null) return;
     const agentId = this.salesmanForm.controls.salesman.value;
-    if (agentId == null || agentId == '') return
+    // if (agentId == null || agentId == '') return
     const params = {
       withVariablesInReturn: true,
       variables: {
-        agentId: { value: agentId }
+        salesmanId: { value: agentId }
       },
     };
     this.transactService.completeTask(this.currentTaskId, params).subscribe(

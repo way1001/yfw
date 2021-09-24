@@ -13,6 +13,11 @@ export class SingupService {
     .pipe();
   }
 
+  getCheckAndRegistrationMessage(phone): Observable<any> {
+    return this.http.put<any>(`/mkt/api/mp/yuntongxun/checkreg`, '', {params: {phone}})
+    .pipe();
+  }
+
   getRegCode(phone): Observable<any> {
     return this.http.get<any>(`/mkt/api/mp/userinfo/code/${phone}`)
     .pipe();
@@ -23,8 +28,29 @@ export class SingupService {
     .pipe();
   }
 
+  initSUserInfo(affId, phone, name, gender): Observable<any> {
+    return this.http.put<any>(`/mkt/api/mp/userinfo/regs`, '', {params: {affId, phone, name, gender}})
+    .pipe();
+  }
+
   getPlatformInfo(): Observable<any> {
-    return this.http.get<any>(`/mkt//api/mp/basicinfo/platform`)
+    return this.http.get<any>(`/mkt/api/mp/basicinfo/platform`)
+    .pipe();
+  }
+
+  getBasicinfo(): Observable<any> {
+    return this.http.get<any>(`/mkt/api/mp/basicinfo/list`)
+    .pipe();
+  }
+
+  associatedAuditInfo(): Observable<any> {
+    return this.http.get<any>(`/mkt/api/mp/trackrecord/list`)
+    .pipe();
+  }
+
+
+  updateTrackRecord(id, status): Observable<any> {
+    return this.http.put<any>(`/mkt/api/mp/trackrecord`, {id, 'auditStatus':status})
     .pipe();
   }
 

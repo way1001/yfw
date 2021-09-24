@@ -282,6 +282,94 @@
       padding: 0px var(--page-pictures-gutter) calc(var(--page-pictures-gutter) * 2);
     }
   }
+
+  .related-activities-wrapper {
+    padding: 0px 0px calc(var(--page-margin) * 2);
+
+    .related-activity {
+      --ion-grid-column-padding: 0px;
+
+      &:not(:last-child) {
+        margin-bottom: var(--page-margin);
+      }
+
+      .activity-details {
+        // text-align: center;
+        position: relative;
+
+        .activity-name {
+          margin: 0px;
+          margin-top: 5px;
+          font-size: 14px;
+
+          .type{
+            color: rgb(43, 23, 226);
+         }
+        }
+
+        .activity-category {
+          display: block;
+          margin-top: 2px;
+          font-size: 10px;
+        }
+
+        .activity-rating {
+          position: absolute;
+          top: 0;
+          right: 0;
+          margin-top: 5px;
+          margin-right: calc(var(--page-margin)*3);
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .rating-icon {
+            color: var(--page-color);
+          }
+
+          .rating-value {
+            color: var(--page-color);
+            font-size: 14px;
+            margin-left: 4px;
+          }
+        }
+
+        .activity-close {
+          position: absolute;
+          top: 0;
+          right: 0;
+          margin-top: 5px;
+          margin-right: 0;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .rating-icon {
+            color: var(--page-color);
+          }
+
+          .rating-value {
+            color: var(--page-color);
+            font-size: 14px;
+            margin-left: 4px;
+          }
+        }
+      }
+
+      .picture-wrapper {
+        --col-item-width: 4;
+        // SSR fix: Override ion-col styles
+        flex: 0 0 calc(calc(var(--col-item-width) / var(--ion-grid-columns, 12)) * 100%);
+        width: calc(calc(var(--col-item-width) / var(--ion-grid-columns, 12)) * 100%);
+        max-width: calc(calc(var(--col-item-width) / var(--ion-grid-columns, 12)) * 100%);
+  
+        padding: 0px var(--page-pictures-gutter);
+        
+      }
+    }
+  }
 }
 
 .legal-stuff {

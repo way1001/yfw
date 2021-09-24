@@ -10,6 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { switchMap } from 'rxjs/operators';
 import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy.page';
 import { SingupService } from '../signup/singup.service';
+import { ListingPage } from '../transact/listing/listing.page';
+import { TransactService } from '../transact/transact.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -30,6 +32,10 @@ export class UserProfilePage implements OnInit {
   translations;
   userRole;
   platformInfo;
+  auditInfo;
+  currentUser;
+  
+  onHold: 0;
 
   @HostBinding('class.is-shell') get isShell() {
     return (this.profile && this.profile.isShell) ? true : false;
@@ -41,13 +47,31 @@ export class UserProfilePage implements OnInit {
     public modalController: ModalController,
     private routerOutlet: IonRouterOutlet,
     public alertController: AlertController,
-    public singupService: SingupService
+    public singupService: SingupService,
+    public transactService: TransactService
   ) { 
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.singupService.getPlatformInfo().subscribe(
       res => {
         this.platformInfo = res.data;
       }
     )
+    this.singupService.associatedAuditInfo().subscribe(
+      resp => {
+        this.auditInfo = resp.data;
+      }
+    )
+    this.transactService.getTaskCount(this.currentUser.mktUserId).subscribe(
+      resp => {
+        //
+        if (resp?.count > 0) {
+          //
+          this.onHold = resp?.count;
+        }
+
+      }
+    )
+
   }
 
 
@@ -69,7 +93,7 @@ export class UserProfilePage implements OnInit {
       } else if (this.profile?.userRole === 'secretary') {
         this.userRole = '客服';
       }else if (this.profile?.userRole === 'salesman') {
-        this.userRole = '业务员';
+        this.userRole = '置业顾问';
       }else if (this.profile?.userRole === 'manager') {
         this.userRole = '经理';
       }
@@ -144,6 +168,30 @@ export class UserProfilePage implements OnInit {
       }
     });
     return await modal.present();
+  }
+
+  update(id, status) {
+    this.singupService.updateTrackRecord(id, status).subscribe(
+      res=>{
+        this.singupService.associatedAuditInfo().subscribe(
+          resp => {
+            this.auditInfo = resp.data;
+          }
+        )
+      }
+    )
+  }
+
+  async presentModal(ins) {
+    const modal = await this.modalController.create({
+      component: ListingPage,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+        'assignee': this.currentUser.mktUserId,
+      }
+    });
+    await modal.present();
   }
 
 }

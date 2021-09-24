@@ -1,0 +1,216 @@
+@import "../../../../theme/mixins/inputs/radio-tag";
+// Custom variables
+// Note:  These ones were added by us and have nothing to do with Ionic CSS Custom Properties
+:host {
+  // --page-margin: var(--app-broad-margin);
+  --page-background: var(--app-background-shade);
+
+  --page-highlighted-background: #00AFFF;
+
+
+  --page-margin: var(--app-fair-margin);
+
+  --page-tags-gutter: 5px;
+}
+
+// Note:  All the CSS variables defined below are overrides of Ionic elements CSS Custom Properties
+
+// Use a colored border-top to fix weird transitions between toolbars that have different background colors
+ion-header {
+  ion-toolbar {
+    --background: transparent;
+  }
+}
+ion-content {
+  position: absolute;
+  top: 0;
+  // border-top: calc(var(--app-header-height) + var(--ion-safe-area-top));
+  border-top-style: solid;
+  border-top-color: var(--page-highlighted-background);
+}
+
+
+
+.transact-details-content {
+  --background: var(--page-background);
+  // To fix half pixel line between ion-header and  ion-content
+  transform: translateZ(0);
+
+  ion-item-divider {
+		--background: var(--page-background);
+		--padding-bottom: calc(var(--page-margin) / 2);
+		--padding-top: calc(var(--page-margin) / 2);
+		--padding-start: var(--page-margin);
+		--padding-end: var(--page-margin);
+
+		border: none;
+	}
+
+  .user-details-wrapper {
+    --ion-grid-column-padding: 0px;
+
+    padding: 0px var(--page-margin) var(--page-margin);
+    background-color: var(--page-highlighted-background);
+    color: var(--ion-color-light);
+    align-items: center;
+
+    .user-avatar {
+      border: solid 3px var(--ion-color-light);
+    }
+
+    .user-info-wrapper {
+      padding-left: calc(var(--page-margin) / 2);
+
+      .user-name {
+        margin: 0px 0px 5px;
+      }
+
+      .user-handle {
+        margin: 0px;
+        font-weight: 400;
+      }
+    }
+
+    // .user-stats-wrapper {
+    //   text-align: center;
+    //   padding-top: calc(var(--page-margin) / 2);
+
+    //   .user-stat-value {
+    //     margin-right: 5px;
+    //     font-weight: 500;
+    //     font-size: 18px;
+    //   }
+
+    //   .user-stat-name {
+    //     font-size: 16px;
+    //   }
+    // }
+
+    // .user-bio {
+    //   margin: var(--page-margin) 0px 0px;
+    //   line-height: 1.2;
+    //   font-size: 14px;
+    // }
+  }
+
+  .user-preferences-wrapper {
+    --ion-grid-column-padding: 0px;
+
+    padding: var(--page-margin);
+
+    .preference-name {
+      margin: 0px 0px 5px;
+      font-size: 16px;
+    }
+
+    .preference-value {
+      margin: 0px 0px calc(var(--page-margin) / 2);
+      font-size: 14px;
+      line-height: 1.4;
+      color: var(--ion-color-dark-tint);
+    }
+
+
+  }
+
+  .radio-tags {
+    padding: 0px calc(var(--page-margin) - var(--page-tags-gutter));
+		background-color: var(--page-background);
+    justify-content: space-between;
+
+		@include radio-tag();
+
+    // Add a deeper selector to override default colors
+    .radio-tag {
+      --radio-tag-color: var(--ion-color-secondary);
+      --radio-tag-background: var(--ion-color-lightest);
+      --radio-tag-active-color: var(--ion-color-lightest);
+      --radio-tag-active-background: var(--ion-color-secondary);
+
+      padding: 0px var(--page-tags-gutter);
+      margin: var(--page-tags-gutter) 0px;
+    }
+
+	}
+
+  .submit-btn,
+  .tip-label {
+    margin: var(--page-margin);
+  }
+
+  .user-bio {
+    padding: 0px var(--page-margin) var(--page-margin);
+    // margin: var(--page-margin) 0px 0px;
+    line-height: 1.2;
+    font-size: 14px;
+  }
+
+  .user-stats-wrapper {
+    color: var(--ion-color-tertiary-tint);
+    
+    text-align: center;
+    padding-top: calc(var(--page-margin) / 2);
+
+    .user-stat-value {
+      margin-right: 5px;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .user-stat-name {
+      font-size: 14px;
+      text-decoration: underline;
+    }
+  }
+
+
+  .alert-wrapper {
+    background: #e5e5e5;
+  }
+  
+  /* Works - pass "my-custom-class" in cssClass to increase specificity */
+  .my-custom-class .alert-wrapper {
+    background: #e5e5e5;
+  }
+
+  // .input-item {
+  //   --background: var(--page-background);
+  //   --padding-start: var(--page-margin);
+  //   --padding-end: var(--page-margin);
+  //   --inner-padding-end: 0px;
+
+  // }
+  .input-item {
+    --background: var(--page-background);
+    --padding-start: 0px;
+    --padding-end: 0px;
+    // --inner-padding-end: 0px;
+
+    ion-label {
+      --padding-start: 0px;
+      --padding-end: 0px;
+      // font-size: 2.0rem;
+      // height: 1.6rem;
+      // padding: 1rem 0;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    ion-input {
+      --padding-start: 0px;
+      --padding-end: 0px;
+      // font-size: 2.0rem;
+      // height: 1.6rem;
+      // padding: 1rem 0;
+      font-size: 30px;
+      text-align: center;
+    }
+  }
+}
+
+:host-context(.ios) {
+  .radio-tags,
+  .checkbox-tags {
+    margin-bottom: calc(var(--page-margin) * 2);
+  }
+}

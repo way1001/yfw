@@ -1,0 +1,92 @@
+<!-- <ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content class="transact-details-content">
+  
+  <!-- <ion-row class="user-details-wrapper">
+    <ion-col size="4">
+      <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+        <app-image-shell class="user-avatar" animation="spinner" [src]="'./assets/sample-images/notifications/100x100Notification2.jpg'" [alt]="'notification image'"></app-image-shell>
+      </app-aspect-ratio>
+    </ion-col>
+    <ion-col class="user-info-wrapper" size="8">
+      <h3 class="user-name">Claire Hale</h3>
+      <h5 class="user-handle">@clairehale</h5>
+    </ion-col>
+    <ion-col class="user-stats-wrapper" size="6">
+      <span class="user-stat-value">1553</span>
+      <span class="user-stat-name">Following</span>
+    </ion-col>
+    <ion-col class="user-stats-wrapper" size="6">
+      <span class="user-stat-value">537</span>
+      <span class="user-stat-name">Followers</span>
+    </ion-col>
+    <ion-col size="12">
+      <p class="user-bio">
+        I am a product and visual designer based in Uruguay. I have designed at Google, Amazon and Microsoft.
+      </p>
+    </ion-col>
+  </ion-row> -->
+  <ion-row class="user-preferences-wrapper">
+    <ion-col size="12">
+      <h4 class="preference-name">客户：</h4>
+      <p class="preference-value">
+        {{currentReferral?.customerName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">电话：</h4>
+      <p class="preference-value">
+        {{currentReferral?.phone}}「置业顾问补全{{currentReferral?.completion}}」
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">咨询楼盘：</h4>
+      <p class="preference-value">
+        {{currentReferral?.basicInfo?.projectName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">客户意向：</h4>
+      <p class="preference-value">
+        {{currentReferral?.description}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">跟办置业顾问：</h4>
+      <p class="preference-value">
+        {{currentSaleman?.realName}}
+      </p>
+    </ion-col>
+    <ion-col size="12">
+      <h4 class="preference-name">置业顾问电话：</h4>
+      <p class="preference-value">
+        {{currentSaleman?.phone}}
+      </p>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-button class="submit-btn" type="submit" expand="block" fill="outline" (click)="onSubmit(true)">确认已来访</ion-button>
+  <ion-button class="submit-btn" type="submit" expand="block" fill="outline" (click)="onSubmit(false)">回退重新办理</ion-button>
+  <!-- <ion-label class="tip-label">
+      <span>选择有疑问提交后，系统会提示客户补充二位号码后重新发送审核</span>
+    </ion-label> -->
+
+
+    <!-- <ion-col class="user-stats-wrapper" size="6" *ngIf="onHold > 1">
+      <span class="user-stat-value">您还有{{onHold}}条流程待办理</span>
+      <span class="user-stat-name">
+        <a style="text-decoration:underline;" (click)="presentModal()">点击查看详情</a>
+      </span>
+    </ion-col> -->
+
+
+
+</ion-content>
+<!-- <ion-alert></ion-alert> -->
